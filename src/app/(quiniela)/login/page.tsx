@@ -1,8 +1,18 @@
 "use client";
 import { titleFont } from "@/config/fonts";
 import { FcGoogle } from "react-icons/fc";
+import useSupabaseClient from '@/lib/supabase/client';
 
 export default function LoginPage() {
+  const supabase = useSupabaseClient();
+  const loginWithGoogle = () => {
+    supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    });
+  };
   return (
     <div className="flex flex-col min-h-screen pt-32 sm:pt-52">
       <h1 className={`${titleFont.className} text-4xl mb-5`}>Ingresar</h1>
@@ -29,7 +39,7 @@ export default function LoginPage() {
           <div className="flex-1 border-t border-gray-500"></div>
         </div>
 
-        <button onClick={() => {}} className="btn-secondary text-center flex items-center gap-2">
+        <button onClick={loginWithGoogle} className="btn-secondary text-center flex items-center gap-2">
           <FcGoogle size={25} />
           Ingresar con Google
         </button>

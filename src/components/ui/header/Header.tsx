@@ -16,11 +16,11 @@ const Header = async (): Promise<JSX.Element> => {
   };
 
   return (
-    <header className=' h-20 text-black'>
+    <header className=' h-16 bg-slate-700 px-5'>
       <nav className='h-full flex justify-between container items-center'>
         <div>
           <Link href='/' className='text-2xl font-semibold'>
-            CodevoWeb
+           Quiniela
           </Link>
         </div>
         <div className='flex items-center space-x-4'>

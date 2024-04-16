@@ -1,16 +1,16 @@
 import getUserSession from "@/lib/getUserSession";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
   const {
-    data: { session },
+    data: { user },
   } = await getUserSession();
+  // console.log(user, "👀");
 
-  if (!session) {
+  if (!user) {
     return redirect("/login");
   }
-
-  const user = session.user;
 
   return (
     <section className="min-h-screen pt-20">
@@ -19,11 +19,18 @@ export default async function ProfilePage() {
           <p className="mb-3 text-5xl text-center font-semibold">
             Profile Page
           </p>
-          <div className="mt-8">
-            {/* {JSON.stringify(user,null,2)} */}
+          <div className="mt-8 text-white">
+            {/* {JSON.stringify(user, null, 2)} */}
             {/* <p className='mb-3'>Id: {user.id}</p> */}
             {/* <p className='mb-3'>Role: {user.role}</p> */}
-            <p className="mb-3 text-white">Email: {user.email}</p>
+            <p className="mb-3 text-white">Email: {user.user_metadata.email}</p>
+            <Image
+              src={user.user_metadata.picture}
+              alt="image-profile"
+              width={100}
+              height={100}
+              className="rounded-full"
+            />
             {/* <p className='mb-3'>Provider: {user.app_metadata['provider']}</p> */}
             {/* <p className='mb-3'>Created At: {user.created_at}</p> */}
           </div>

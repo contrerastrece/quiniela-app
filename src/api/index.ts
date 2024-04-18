@@ -1,4 +1,5 @@
 import { apiOptions, matchesType } from "@/types";
+import moment from "moment";
 
 const options: apiOptions = {
   next: { revalidate: 30 },
@@ -8,45 +9,49 @@ const options: apiOptions = {
   },
 };
 // obtener Partidos de las 13 competiciones (free plan)
+const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
+// const hoy = moment().format("YYYY-MM-DD");
+const tomorrow = moment().add(2, "days").format("YYYY-MM-DD");
+
 export const getMatchesfootball = async () => {
-  const matchData = await fetch(
-    "https://api.football-data.org/v4/matches",
-    options
-  );
-  return matchData.json();
-};
-
-const todayDate = new Date();
-const getDateMonth = new Date(todayDate.getTime());
-getDateMonth.setDate(todayDate.getDate() - 1);
-const year = getDateMonth.getFullYear();
-const month = String(getDateMonth.getMonth() + 1).padStart(2, "0");
-const day = String(getDateMonth.getDate()).padStart(2, "0");
-
-const yesterday = [year, month, day].join("-");
-console.log(yesterday);
-const fechaEspecifica = "2024-04-15";
-export const getMatchesfootballFinished = async () => {
-
   try {
     const matchData = await fetch(
-      `https://api.football-data.org/v4/matches?dateFrom=${fechaEspecifica}&dateTo=${'2024-04-20'}`,
-      // `https://api.football-data.org/v4/matches?date=${'2024-04-17'}`,
+      `https://api.football-data.org/v4/matches?dateFrom=${yesterday}&dateTo=${tomorrow}`,
       options
     );
-    const data=await matchData.json();
-    console.log(data);
+    const data = await matchData.json();
     return data;
   } catch (error) {
-    console.log(error,'🚩')
+    console.log(error, "🚩");
   }
 };
 
-export const filterLeague = async (filterData: string) => {
-  const getEnglishLeague = await getMatchesfootball();
-  const filterPremierLeague: matchesType[] = getEnglishLeague?.matches;
-  const getData = filterPremierLeague.filter(
-    (item) => item.competition.name === filterData
-  );
-  return getData;
+export const getMatchesbyDate = async (date:string) => {
+  try {
+    const matchData = await fetch(
+      `https://api.football-data.org/v4/matches?date=${date}`,
+      options
+    );
+    const data = await matchData.json();
+    return data;
+  } catch (error) {
+    console.error(error, "🚩");
+  }
+};
+
+export const getSevenDays = () => {
+  let dates = [];
+  for (let i = -3; i < 4; i++) {
+    const date = moment().add(i, "days");
+    const weekDay = date.format("ddd");
+    const day = date.format("DD.MM");
+    const other = date.format("YYYY-MM-DD");
+
+    dates.push({
+      weekday: weekDay,
+      day: day,
+      other: other,
+    });
+  }
+  return dates;
 };

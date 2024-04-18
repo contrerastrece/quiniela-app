@@ -1,15 +1,13 @@
 // "use client";
-import { getMatchesfootball, getMatchesfootballFinished } from "@/api";
+import { getMatchesbyDate, getMatchesfootball } from "@/api";
 import { Status } from "@/components";
 // import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 // import { useEffect } from "react";
 // import { getMatchesfootball, getMatchesfootballFinished } from "@/api"
 
 export default async function HomePage() {
-  const getDatas = await getMatchesfootball();
-  const getDatasFinished = await getMatchesfootballFinished();
-
-  // const { getQuiniela } = useQuinielaStore();
+  // const getDatas = await getMatchesfootball();
+// const { getQuiniela } = useQuinielaStore();
   // const { data } = useQuinielaStore();
   // const { insertQuiniela } = useQuinielaStore();
   
@@ -28,11 +26,10 @@ export default async function HomePage() {
   //   await insertQuiniela(newQuiniela);
   // };
 
-  const matchesDatas = getDatas?.matches;
-  const matchesDatasFinished = getDatasFinished?.matches;
+  // const matchesDatas = getDatas?.matches;
 
-  const nd = new Date();
-  const dateConvert = nd.toDateString();
+  // const nd = new Date();
+  // const dateConvert = nd.toDateString();
 
   return (
     <div className="text-white">
@@ -58,12 +55,11 @@ export default async function HomePage() {
         <div className="flex justify-between items-center mb-4 md:mb-2">
           <h1 className="text-md md:text-xl font-bold">MATCHES</h1>
           <div className="px-4 py-0 md:py-1 bg-slate-600 rounded-md text-textPrimary text-sm">
-            <p>{`${dateConvert}`}</p>
+            {/* <p>{`${dateConvert}`}</p> */}
           </div>
         </div>
         <Status
-          // matchesList={0}
-          matchesListFinished={matchesDatasFinished}
+          // matchesList={matchesDatas}
         />
       </section>
     </div>

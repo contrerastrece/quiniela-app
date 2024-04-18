@@ -19,11 +19,13 @@ export type matchesHomeTeam = {
   id?: number,
   name: string,
   crest: string
+  shortName: string
 }
 export type matchesAwayTeam = {
   id?: number,
   name: string,
   crest: string
+  shortName: string
 }
 export type scores = {
   fullTime: {
@@ -46,6 +48,7 @@ export type matchesType = {
   homeTeam?: matchesHomeTeam,
   awayTeam?: matchesAwayTeam,
   score?:scores
+
 }
 
 export type newsType = {

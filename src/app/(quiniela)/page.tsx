@@ -1,49 +1,16 @@
-// "use client";
-import { getMatchesbyDate, getMatchesfootball } from "@/api";
+import { getMatchesfootballByWeek } from "@/api";
 import { Status } from "@/components";
-// import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
-// import { useEffect } from "react";
-// import { getMatchesfootball, getMatchesfootballFinished } from "@/api"
+import { Suspense } from "react";
 
 export default async function HomePage() {
-  // const getDatas = await getMatchesfootball();
-// const { getQuiniela } = useQuinielaStore();
-  // const { data } = useQuinielaStore();
-  // const { insertQuiniela } = useQuinielaStore();
-  
-  // useEffect(() => {
-  //   getQuiniela();
-  // }, []);
-  // console.log(data, "🚩");
-
-  // const handleInsertQuiniela = async () => {
-  //   const newQuiniela = {
-  //     score_home: 0,
-  //     score_visit: 0,
-  //     id_match: "100",
-  //     user_name: "vcontreras",
-  //   };
-  //   await insertQuiniela(newQuiniela);
-  // };
-
-  // const matchesDatas = getDatas?.matches;
-
-  // const nd = new Date();
-  // const dateConvert = nd.toDateString();
+  const { matches } = await getMatchesfootballByWeek();
+  console.log(matches.length)
 
   return (
     <div className="text-white">
-      {/* {JSON.stringify(data, null, 2)} */}
-
       <div className="">
         <h2 className="font-semibold">¡Bienvenido userName!</h2>
         <br></br>
-        {/* <button
-          onClick={handleInsertQuiniela}
-          className="border bg-slate-500 rounded-md px-2"
-        >
-          Insertar Quiniela
-        </button> */}
         <p className="">
           ¡Es hora de poner a prueba tus habilidades de pronóstico futbolístico!
           En Quiniela App, tendrás la oportunidad de demostrar tu conocimiento
@@ -58,9 +25,9 @@ export default async function HomePage() {
             {/* <p>{`${dateConvert}`}</p> */}
           </div>
         </div>
-        <Status
-          // matchesList={matchesDatas}
-        />
+        {/* <Suspense fallback={<>Loading...</>}> */}
+        <Status matchesList={matches} />
+        {/* </Suspense> */}
       </section>
     </div>
   );

@@ -1,4 +1,4 @@
-import { apiOptions, matchesType } from "@/types";
+import { apiOptions } from "@/types";
 import moment from "moment";
 
 const options: apiOptions = {
@@ -9,14 +9,13 @@ const options: apiOptions = {
   },
 };
 // obtener Partidos de las 13 competiciones (free plan)
-const yesterday = moment().subtract(1, "days").format("YYYY-MM-DD");
-// const hoy = moment().format("YYYY-MM-DD");
-const tomorrow = moment().add(2, "days").format("YYYY-MM-DD");
 
-export const getMatchesfootball = async () => {
+export const getMatchesfootballByWeek = async () => {
+  const firstDay=getSevenDays()[0].other
+  const lastDay=getSevenDays()[6].other
   try {
     const matchData = await fetch(
-      `https://api.football-data.org/v4/matches?dateFrom=${yesterday}&dateTo=${tomorrow}`,
+      `https://api.football-data.org/v4/matches?dateFrom=${firstDay}&dateTo=${lastDay}`,
       options
     );
     const data = await matchData.json();

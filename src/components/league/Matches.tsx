@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { matchesType } from "@/types";
+import { Match } from "@/types";
 import { InputScore } from "./InputScore";
 
-const Matches = ({ data }: { data: matchesType }) => {
+const Matches = ({ data }: { data: Match }) => {
   const getDate = new Date(data?.utcDate).toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -12,21 +12,23 @@ const Matches = ({ data }: { data: matchesType }) => {
   return (
     <div className="flex flex-col gap-2 min-w-[20rem] max-w-lg">
       {data.status === "IN_PLAY" || data.status === "PAUSED" ? (
-        <p className="flex gap-2 items-center  text-end text-white text-xs ">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-          </span>
-          En vivo {data.status === "PAUSED" ? "(entretiempo)" : ""}
-        </p>
+        <>
+          <div className="flex gap-2 items-center  text-end text-white text-xs ">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            En vivo {data.status === "PAUSED" ? "(entretiempo)" : ""}
+          </div>
+        </>
       ) : data.status === "FINISHED" ? (
-        <p className="text-white text-xs">Finalizado</p>
+        <>
+          <p className="text-white text-xs">Finalizado</p>
+        </>
       ) : (
-        <p>
-          <p className="py-1 text-teal-400 text-xs">
-            {getDate}
-          </p>
-        </p>
+        <>
+          <p className="py-1 text-teal-400 text-xs">{getDate}</p>
+        </>
       )}
 
       <div className="grid grid-cols-3 ">
@@ -54,11 +56,13 @@ const Matches = ({ data }: { data: matchesType }) => {
                   <p className="text-xs font-thin">Finalizado</p>
                 </>
               ) : (
-                <p className="text-xs text-center font-thin text-teal-400">
-                  1er Tiempo
+                <div className="text-xs text-center font-thin text-teal-400">
+                  <p>1er Tiempo</p>
                   <br />
-                  {data?.score?.halfTime?.home}:{data?.score?.halfTime?.away}
-                </p>
+                  <p>
+                    {data?.score?.halfTime?.home}:{data?.score?.halfTime?.away}
+                  </p>
+                </div>
               )}
               <p
                 className={`py-1 ${
@@ -71,7 +75,9 @@ const Matches = ({ data }: { data: matchesType }) => {
           ) : (
             <>
               {data.status === "POSTPONED" ? (
-                <p className="text-xs text-white">Pospuesto</p>
+                <>
+                  <p className="text-xs text-white">Pospuesto</p>
+                </>
               ) : (
                 <div className="flex flex-col-reverse">
                   <div className="flex gap-2 items-center justify-center">

@@ -1,10 +1,13 @@
 import { Match } from "@/types";
+import moment from "moment";
 import Image from "next/image";
 
 const Competition = ({ data }: { data: Match }) => {
   const nd = new Date(data?.utcDate);
+  // const a=moment(nd).format('ddd  DD MM YYYY');
+  // console.log(a);
   // console.log(nd)
-  const dateConvert = nd.toDateString();
+  const dateConvert =moment(nd).format('ddd  DD MM YYYY');
 
   // console.log(dateConvert)
   // console.log(data)
@@ -16,7 +19,7 @@ const Competition = ({ data }: { data: Match }) => {
           alt={data?.competition.name}
           width={25}
           height={25}
-          className="aspect-auto border border-red-600 bg-white rounded-md p-[2px]"
+          className="aspect-auto  bg-white rounded-md p-[2px]"
         />
         <p className="text-sm text-teal-400">{data?.competition.name}</p>
       </div>

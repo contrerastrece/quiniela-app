@@ -1,6 +1,5 @@
 import { getMatchesfootballByWeek } from "@/api";
 import { Status } from "@/components";
-import { Suspense } from "react";
 
 export default async function HomePage() {
   const { matches } = await getMatchesfootballByWeek();
@@ -8,7 +7,7 @@ export default async function HomePage() {
 
   return (
     <div className="text-white">
-      <div className="">
+      <div className="p-2">
         <h2 className="font-semibold">¡Bienvenido userName!</h2>
         <br></br>
         <p className="">
@@ -25,9 +24,7 @@ export default async function HomePage() {
             {/* <p>{`${dateConvert}`}</p> */}
           </div>
         </div>
-        {/* <Suspense fallback={<>Loading...</>}> */}
         <Status matchesList={matches} />
-        {/* </Suspense> */}
       </section>
     </div>
   );

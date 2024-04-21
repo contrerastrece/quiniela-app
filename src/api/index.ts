@@ -11,8 +11,9 @@ const options: apiOptions = {
 // obtener Partidos de las 13 competiciones (free plan)
 
 export const getMatchesfootballByWeek = async () => {
-  const firstDay=getSevenDays()[0].other
-  const lastDay=getSevenDays()[6].other
+  const firstDay = moment().subtract(3, "days").format('YYYY-MM-DD')
+  const lastDay = moment().add(4, "days").format('YYYY-MM-DD');
+  console.log(firstDay);
   try {
     const matchData = await fetch(
       `https://api.football-data.org/v4/matches?dateFrom=${firstDay}&dateTo=${lastDay}`,
@@ -25,7 +26,7 @@ export const getMatchesfootballByWeek = async () => {
   }
 };
 
-export const getMatchesbyDate = async (date:string) => {
+export const getMatchesbyDate = async (date: string) => {
   try {
     const matchData = await fetch(
       `https://api.football-data.org/v4/matches?date=${date}`,

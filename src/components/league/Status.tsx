@@ -12,13 +12,36 @@ interface Props {
 }
 
 const Status = ({ matchesList }: Props) => {
-  console.log(matchesList.length, "🚩");
+  console.log(matchesList[7], "🚩");
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
+ 
   const days = getSevenDays();
+
+  // Función para agrupar los partidos por fecha
+  const groupMatchesByDate = (matches ) => {
+    // console.log(matches)
+    const groupedMatches = {};
+    matches.forEach((match) => {
+      const date=moment(match.utcDate).format('YYYY-MM-DD')
+      // const date = match.utcDate.split("T")[0]; // Obtener la fecha sin la hora
+      if (!groupedMatches[date]) {
+        groupedMatches[date] = [];
+      }
+      groupedMatches[date].push(match);
+    });
+    return groupedMatches;
+  };
+
+  // Obtener la lista de partidos agrupados por fecha
+  const groupedMatches = groupMatchesByDate(matchesList);
+  // console.log(groupedMatches['2024-04-17'].length);
+  const [dataFilter,setDataFilter]=useState(groupedMatches[hoy]);
+  // console.log(dataFilter.length);
 
   const handleClick = async (d: string) => {
     setDay(d);
+    setDataFilter(groupedMatches[d]);
   };
 
   return (
@@ -42,7 +65,7 @@ const Status = ({ matchesList }: Props) => {
       </div>
 
       <div className="w-full">
-        {matchesList.map((data) => (
+        {dataFilter.map((data) => (
           <div key={data.id}>
             <LeagueTable data={data} />
           </div>

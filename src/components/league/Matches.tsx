@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { Match } from "@/types";
 import { InputScore } from "./InputScore";
+import moment from "moment";
 
 const Matches = ({ data }: { data: Match }) => {
-  const getDate = new Date(data?.utcDate).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const getDate = moment(data.utcDate).format(" hh:mm A");
+
   // console.log(data);
   // console.log(getDate)
   return (
@@ -53,7 +52,9 @@ const Matches = ({ data }: { data: Match }) => {
             <div className="flex flex-col">
               {data?.status === "FINISHED" ? (
                 <>
-                  <p className="text-xs font-thin">Finalizado</p>
+                  <p className="text-xs font-extralight text-center">
+                    Finalizado
+                  </p>
                 </>
               ) : (
                 <div className="text-xs text-center font-thin text-teal-400">
@@ -61,6 +62,7 @@ const Matches = ({ data }: { data: Match }) => {
                   <br />
                   <p>
                     {data?.score?.halfTime?.home}:{data?.score?.halfTime?.away}
+                    {data?.status}
                   </p>
                 </div>
               )}
@@ -69,7 +71,37 @@ const Matches = ({ data }: { data: Match }) => {
                   data.status === "FINISHED" ? "text-white" : "text-teal-400"
                 } text-2xl text-center`}
               >
-                {data?.score?.fullTime.home} : {data.score?.fullTime.away}
+                <>
+                  {data?.score?.duration === "REGULAR" ? (
+                    <div className="flex gap-2">
+                      <p>{data?.score?.fullTime.home}</p>:
+                      <p>{data.score?.fullTime.away}</p>{" "}
+                    </div>
+                  ) : (
+                    <div className=" flex  flex-col items-center justify-center gap-2">
+                      <div className="flex gap-2">
+                        <p className="text-center">
+                          <span className="text-xs align-middle font-thin">
+                            ({data?.score?.penalties?.home})
+                          </span>
+                          {data?.score?.regularTime?.home}
+                        </p>
+                        :
+                        <p>
+                          {data.score?.regularTime?.away}
+                          <span className="text-xs align-middle font-thin ">
+                            ({data?.score?.penalties?.away})
+                          </span>
+                        </p>
+                      </div>
+                      <span className="text-xs bg-slate-700 px-2 font-thin rounded-sm py-[1px]  text-center">
+                        Global.
+                        {data?.score?.fullTime.home} :{" "}
+                        {data?.score?.fullTime.away}
+                      </span>
+                    </div>
+                  )}
+                </>
               </p>
             </div>
           ) : (

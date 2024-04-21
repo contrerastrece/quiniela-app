@@ -134,10 +134,24 @@ export interface Score {
   duration: Duration;
   fullTime: Time;
   halfTime: Time;
+  regularTime?: Time;
+  extraTime?: Time;
+  penalties?: Time;
 }
+
+// score: {
+//   winner: 'AWAY_TEAM',
+//   duration: 'PENALTY_SHOOTOUT',
+//   fullTime: { home: 4, away: 5 },
+//   halfTime: { home: 0, away: 1 },
+//   regularTime: { home: 1, away: 1 },
+//   extraTime: { home: 0, away: 0 },
+//   penalties: { home: 3, away: 4 }
+// },
 
 export enum Duration {
   Regular = "REGULAR",
+  PenaltyShootout = "PENALTY_SHOOTOUT",
 }
 
 export interface Time {

@@ -1,4 +1,4 @@
-import { apiOptions } from "@/types";
+import { Match, apiOptions } from "@/types";
 import moment from "moment";
 
 const options: apiOptions = {
@@ -44,12 +44,15 @@ export const getMatchesbyDate = async (date: string) => {
 };
 
 export const getMatches = async (day: string) => {
-  const nextDay = moment(day).add(1, "days").format("YYYY-MM-DD");
+  const nextDay = moment(day).add(2, "days").format("YYYY-MM-DD");
   try {
     let url = `http://localhost:3000/api?dateFrom=${day}&dateTo=${nextDay}`;
     const response = await fetch(url);
     const data = await response.json();
-    return data;
+    const grouped = groupMatchesByDate(data);
+    console.log(grouped);
+
+    return grouped;
   } catch (error) {
     console.error(error, "🚩");
   }
@@ -58,6 +61,22 @@ export const getMatches = async (day: string) => {
 export const groupByCompetitions = () => {
   // obtener matchesByDate
   // agrupar y retornar por Competición
+};
+
+export const groupMatchesByDate = (matches: Match[]) => {
+  const groupedMatches: Record<string, Match[]> = {};
+
+  matches.forEach((match) => {
+    const date = moment(match.utcDate).format("YYYY-MM-DD");
+
+    if (!groupedMatches[date]) {
+      groupedMatches[date] = [];
+    }
+
+    groupedMatches[date].push(match);
+  });
+
+  return groupedMatches;
 };
 
 export const getSevenDays = () => {

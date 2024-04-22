@@ -1,20 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Match } from "@/types";
 import LeagueTable from "./LeagueTable";
 import "moment/locale/es";
-import { getMatches, getMatchesbyDate, getSevenDays } from "@/api";
+import { getMatches, getSevenDays } from "@/api";
 import moment from "moment";
 
-interface Props {
-  matchesList: Match[];
-}
-
-const Status = ({ matchesList }: Props) => {
+const Status = () => {
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
-  const [dataMatches, setDataMatches] = useState(null);
+  const [dataMatches, setDataMatches] = useState([]);
 
   const days = getSevenDays();
 
@@ -26,14 +21,13 @@ const Status = ({ matchesList }: Props) => {
 
   useEffect(() => {
     const getData = async () => {
-      const data=await getMatches(day);
-      setDataMatches(data)     
+      const data = await getMatches(day);
+      setDataMatches(data);
     };
 
     getData();
   }, [day]);
 
-  console.log(dataMatches, "😎");
   return (
     <div>
       <div className="flex space-x-4 mb-2 md:mb-4">
@@ -55,7 +49,7 @@ const Status = ({ matchesList }: Props) => {
       </div>
 
       <div className="w-full">
-        {dataMatches?.map((data) => (
+        {dataMatches[day]?.map((data) => (
           <div key={data.id}>
             <LeagueTable data={data} />
           </div>

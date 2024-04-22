@@ -34,8 +34,8 @@ const Matches = ({ data }: { data: Match }) => {
         {/* Data Local */}
         <div className="flex flex-col items-center gap-1">
           <Image
-            src={data?.homeTeam?.crest!}
-            alt={data?.homeTeam?.name!}
+            src={data?.homeTeam?.crest! || "/shield.png"}
+            alt={data?.homeTeam?.name! || ""}
             className="object-contain bg-white rounded-md p-1"
             width={50}
             height={50}
@@ -126,8 +126,8 @@ const Matches = ({ data }: { data: Match }) => {
         {/* Data Visitante */}
         <div className=" flex flex-col items-center gap-1">
           <Image
-            src={data?.awayTeam?.crest!}
-            alt={data?.awayTeam?.name!}
+            src={data?.awayTeam?.crest! || "/shield.png"}
+            alt={data?.awayTeam?.name! || ""}
             width={50}
             height={50}
             className="object-cover bg-white rounded-md  p-1"

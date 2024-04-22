@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Match } from "@/types";
 import LeagueTable from "./LeagueTable";
 import "moment/locale/es";
-import { getSevenDays } from "@/api";
+import { getMatches, getMatchesbyDate, getSevenDays } from "@/api";
 import moment from "moment";
 
 interface Props {
@@ -12,38 +12,28 @@ interface Props {
 }
 
 const Status = ({ matchesList }: Props) => {
-  console.log(matchesList[7], "🚩");
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
- 
+  const [dataMatches, setDataMatches] = useState(null);
+
   const days = getSevenDays();
-
-  // Función para agrupar los partidos por fecha
-  const groupMatchesByDate = (matches ) => {
-    // console.log(matches)
-    const groupedMatches = {};
-    matches.forEach((match) => {
-      const date=moment(match.utcDate).format('YYYY-MM-DD')
-      // const date = match.utcDate.split("T")[0]; // Obtener la fecha sin la hora
-      if (!groupedMatches[date]) {
-        groupedMatches[date] = [];
-      }
-      groupedMatches[date].push(match);
-    });
-    return groupedMatches;
-  };
-
-  // Obtener la lista de partidos agrupados por fecha
-  const groupedMatches = groupMatchesByDate(matchesList);
-  // console.log(groupedMatches['2024-04-17'].length);
-  const [dataFilter,setDataFilter]=useState(groupedMatches[hoy]);
-  // console.log(dataFilter.length);
 
   const handleClick = async (d: string) => {
     setDay(d);
-    setDataFilter(groupedMatches[d]);
+    const data = await getMatches(d);
+    setDataMatches(data);
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      const data=await getMatches(day);
+      setDataMatches(data)     
+    };
+
+    getData();
+  }, [day]);
+
+  console.log(dataMatches, "😎");
   return (
     <div>
       <div className="flex space-x-4 mb-2 md:mb-4">
@@ -65,7 +55,7 @@ const Status = ({ matchesList }: Props) => {
       </div>
 
       <div className="w-full">
-        {dataFilter.map((data) => (
+        {dataMatches?.map((data) => (
           <div key={data.id}>
             <LeagueTable data={data} />
           </div>

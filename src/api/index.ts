@@ -11,8 +11,8 @@ const options: apiOptions = {
 // obtener Partidos de las 13 competiciones (free plan)
 
 export const getMatchesfootballByWeek = async () => {
-  const firstDay = moment().subtract(3, "days").format('YYYY-MM-DD')
-  const lastDay = moment().add(4, "days").format('YYYY-MM-DD');
+  const firstDay = moment().subtract(3, "days").format("YYYY-MM-DD");
+  const lastDay = moment().add(4, "days").format("YYYY-MM-DD");
   console.log(firstDay);
   try {
     const matchData = await fetch(
@@ -27,9 +27,13 @@ export const getMatchesfootballByWeek = async () => {
 };
 
 export const getMatchesbyDate = async (date: string) => {
+  // convertir el día
+  // const selectDay=moment(date)
+  const nextDay = moment(date).add(1, "days").format("YYYY-MM-DD");
+  //
   try {
     const matchData = await fetch(
-      `https://api.football-data.org/v4/matches?date=${date}`,
+      `https://api.football-data.org/v4/matches?dateFrom=${date}&dateTo=${nextDay}`,
       options
     );
     const data = await matchData.json();
@@ -37,6 +41,23 @@ export const getMatchesbyDate = async (date: string) => {
   } catch (error) {
     console.error(error, "🚩");
   }
+};
+
+export const getMatches = async (day: string) => {
+  const nextDay = moment(day).add(1, "days").format("YYYY-MM-DD");
+  try {
+    let url = `http://localhost:3000/api?dateFrom=${day}&dateTo=${nextDay}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error, "🚩");
+  }
+};
+
+export const groupByCompetitions = () => {
+  // obtener matchesByDate
+  // agrupar y retornar por Competición
 };
 
 export const getSevenDays = () => {

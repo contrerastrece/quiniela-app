@@ -1,33 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LeagueTable from "./LeagueTable";
 import "moment/locale/es";
 import { getMatches, getSevenDays } from "@/api";
 import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+import { Loading } from "../ui/loader/Loading";
 
 const Status = () => {
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
-  const [dataMatches, setDataMatches] = useState([]);
 
   const days = getSevenDays();
 
   const handleClick = async (d: string) => {
     setDay(d);
-    const data = await getMatches(d);
-    setDataMatches(data);
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getMatches(day);
-      setDataMatches(data);
-    };
 
-    getData();
-  }, [day]);
-
+  const {
+    isLoading,
+    data: matches,
+    error,
+  } = useQuery({
+    queryKey: ["dataMatches", day],
+    queryFn: async () => {
+      return await getMatches(day);
+    },
+  });
+  
   return (
     <div>
       <div className="flex space-x-4 mb-2 md:mb-4">
@@ -49,11 +51,17 @@ const Status = () => {
       </div>
 
       <div className="w-full">
-        {dataMatches[day]?.map((data) => (
-          <div key={data.id}>
-            <LeagueTable data={data} />
-          </div>
-        ))}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {matches![day]?.map((data) => (
+              <div key={data.id}>
+                <LeagueTable data={data} />
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

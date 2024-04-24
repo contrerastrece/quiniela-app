@@ -3,6 +3,8 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
+
+
   const {
     data: { user },
   } = await getUserSession();
@@ -11,6 +13,8 @@ export default async function ProfilePage() {
   if (!user) {
     return redirect("/login");
   }
+
+
 
   return (
     <section className="min-h-screen pt-20">

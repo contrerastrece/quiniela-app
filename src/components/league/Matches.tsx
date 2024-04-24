@@ -2,8 +2,10 @@ import Image from "next/image";
 import { Match } from "@/types";
 import { InputScore } from "./InputScore";
 import moment from "moment";
+import { Card } from "../ui/card/Card";
 
 const Matches = ({ data }: { data: Match }) => {
+  const { awayTeam, homeTeam, status } = data;
   const getDate = moment(data.utcDate).format(" hh:mm A");
 
   // console.log(data);
@@ -31,19 +33,9 @@ const Matches = ({ data }: { data: Match }) => {
       )}
 
       <div className="grid grid-cols-3 ">
-        {/* Data Local */}
-        <div className="flex flex-col items-center gap-1">
-          <Image
-            src={data?.homeTeam?.crest! || "/shield.png"}
-            alt={data?.homeTeam?.name! || ""}
-            className="object-contain bg-white rounded-md p-1"
-            width={50}
-            height={50}
-          />
-          <p className="w-full text-xs text-white text-wrap text-center ">
-            {data?.homeTeam?.shortName}
-          </p>
-        </div>
+        {/* Card Local */}
+        <Card url={homeTeam.crest!} shortName={homeTeam.shortName} />
+
         {/* Marcador */}
         <div className="px-2 m-auto flex   items-center  gap-2">
           {data?.status === "IN_PLAY" ||
@@ -106,36 +98,17 @@ const Matches = ({ data }: { data: Match }) => {
             </div>
           ) : (
             <>
-              {data.status === "POSTPONED" ? (
+              {data.status === "POSTPONED" && (
                 <>
                   <p className="text-xs text-white">Pospuesto</p>
                 </>
-              ) : (
-                <div className="flex flex-col-reverse">
-                  <div className="flex gap-2 items-center justify-center">
-                    {data.status === "TIMED" && <InputScore />}
-                    <span className="text-slate-400 text-xl">:</span>
-                    {data.status === "TIMED" && <InputScore />}
-                  </div>
-                </div>
               )}
             </>
           )}
         </div>
 
-        {/* Data Visitante */}
-        <div className=" flex flex-col items-center gap-1">
-          <Image
-            src={data?.awayTeam?.crest! || "/shield.png"}
-            alt={data?.awayTeam?.name! || ""}
-            width={50}
-            height={50}
-            className="object-cover bg-white rounded-md  p-1"
-          />
-          <p className="w-full text-xs text-center text-white text-wrap">
-            {data?.awayTeam?.shortName}
-          </p>
-        </div>
+        {/* Card Visitante */}
+        <Card url={awayTeam.crest!} shortName={awayTeam.shortName} />
       </div>
     </div>
   );

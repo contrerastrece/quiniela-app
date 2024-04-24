@@ -1,8 +1,12 @@
 export { default as Competition } from './league/Competition';
+export * from './league/FormMatch';
 export * from './league/InputScore';
 export { default as LeagueTable } from './league/LeagueTable';
 export { default as Matches } from './league/Matches';
 export { default as Status } from './league/Status';
+export { default as TansTackProvider } from './provider/TansTackProvider';
 export * from './ui/buttons/BtnSave';
+export * from './ui/card/Card';
 export { default as Header } from './ui/header/Header';
+export * from './ui/loader/Loading';
 export * from './ui/not-found/PageNotFound';

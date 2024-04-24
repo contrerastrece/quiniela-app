@@ -1,9 +1,6 @@
-import { getMatchesfootballByWeek } from "@/api";
 import { Status } from "@/components";
 
 export default async function HomePage() {
-  // const { matches } = await getMatchesfootballByWeek();
-  // console.log(matches.length)
 
   return (
     <div className="text-white">

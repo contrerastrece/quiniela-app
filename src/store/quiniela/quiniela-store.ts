@@ -2,10 +2,10 @@
 
 // import createSupabaseServerClient from "@/lib/supabase/server";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+import Swal from "sweetalert2";
 import { create } from "zustand";
+
 interface QuinielaItem {
-  id?: number;
-  created_at?: string;
   score_home: number;
   score_visit: number;
   user_name: string;
@@ -35,11 +35,26 @@ export const useQuinielaStore = create<State>((set) => ({
   },
   // insertar el score
   insertQuiniela: async (quiniela) => {
+    console.log(quiniela)
     try {
       const { data, error } = await supabase
         .from("tbl_quiniela")
         .insert(quiniela);
+        Swal.fire({
+          title: "Agregado",
+          text: "Tu pronóstico ha sido agregado con exito.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+        });
       if (error) {
+        Swal.fire({
+          title: "Error",
+          text:`Ha ocurrido un error .${error.message}`,
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000
+        });
         throw new Error(error.message);
       }
       set((state) => ({ data: state.data ? [...state.data, quiniela] : [quiniela] }));

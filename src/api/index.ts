@@ -95,3 +95,15 @@ export const getSevenDays = () => {
   }
   return dates;
 };
+
+export const getResultByMatch = async (id: string) => {
+  let url = `http://localhost:3000/predictions/api?id=${id}`;
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

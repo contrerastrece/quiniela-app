@@ -3,34 +3,35 @@ import { Match } from "@/types";
 import { InputScore } from "./InputScore";
 import moment from "moment";
 import { Card } from "../ui/card/Card";
+import { LiveDot } from "../ui/dot/LiveDot";
 
 const Matches = ({ data }: { data: Match }) => {
-  const { awayTeam, homeTeam, status } = data;
-  const getDate = moment(data.utcDate).format(" hh:mm A");
+  const { awayTeam, homeTeam, status, score } = data;
 
-  // console.log(data);
-  // console.log(getDate)
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "IN_PLAY":
+        return "En vivo";
+      case "PAUSED":
+        return "Entretiempo";
+      case "FINISHED":
+        return "Finalizado";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 min-w-[20rem] max-w-lg">
-      {data.status === "IN_PLAY" || data.status === "PAUSED" ? (
-        <>
-          <div className="flex gap-2 items-center  text-end text-white text-xs ">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
-            En vivo {data.status === "PAUSED" ? "(entretiempo)" : ""}
-          </div>
-        </>
-      ) : data.status === "FINISHED" ? (
-        <>
-          <p className="text-white text-xs">Finalizado</p>
-        </>
-      ) : (
-        <>
-          <p className="py-1 text-teal-400 text-xs">{getDate}</p>
-        </>
-      )}
+      <p className="text-xs flex gap-2 font-thin text-center items-center">
+        {(data.status === "IN_PLAY" || data.status === "PAUSED") && <LiveDot />}
+        {getStatusText(data.status)}
+        {data.status === "IN_PLAY" || data.status === "PAUSED" ? (
+          <>{score.halfTime.home == null ? " (1er tiempo)" : " (2do Tiempo)"}</>
+        ) : (
+          ""
+        )}
+      </p>
 
       <div className="grid grid-cols-3 ">
         {/* Card Local */}
@@ -42,22 +43,6 @@ const Matches = ({ data }: { data: Match }) => {
           data?.status === "FINISHED" ||
           data?.status === "PAUSED" ? (
             <div className="flex flex-col">
-              {data?.status === "FINISHED" ? (
-                <>
-                  <p className="text-xs font-extralight text-center">
-                    Finalizado
-                  </p>
-                </>
-              ) : (
-                <div className="text-xs text-center font-thin text-teal-400">
-                  <p>1er Tiempo</p>
-                  <br />
-                  <p>
-                    {data?.score?.halfTime?.home}:{data?.score?.halfTime?.away}
-                    {data?.status}
-                  </p>
-                </div>
-              )}
               <p
                 className={`py-1 ${
                   data.status === "FINISHED" ? "text-white" : "text-teal-400"
@@ -65,7 +50,7 @@ const Matches = ({ data }: { data: Match }) => {
               >
                 <>
                   {data?.score?.duration === "REGULAR" ? (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 justify-center">
                       <p>{data?.score?.fullTime.home}</p>:
                       <p>{data.score?.fullTime.away}</p>{" "}
                     </div>

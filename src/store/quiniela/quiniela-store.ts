@@ -10,6 +10,11 @@ interface QuinielaItem {
   score_visit: number;
   user_name: string;
   id_match: string;
+  name_home: string;
+  image_home: string | null;
+  name_visit: string;
+  image_visit: string | null;
+  created_at?: string;
   // Agrega aquí otros campos si es necesario
 }
 
@@ -35,29 +40,31 @@ export const useQuinielaStore = create<State>((set) => ({
   },
   // insertar el score
   insertQuiniela: async (quiniela) => {
-    console.log(quiniela)
+    console.log(quiniela);
     try {
       const { data, error } = await supabase
         .from("tbl_quiniela")
         .insert(quiniela);
-        Swal.fire({
-          title: "Agregado",
-          text: "Tu pronóstico ha sido agregado con exito.",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 2000
-        });
+      Swal.fire({
+        title: "Agregado",
+        text: "Tu pronóstico ha sido agregado con exito.",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       if (error) {
         Swal.fire({
           title: "Error",
-          text:`Ha ocurrido un error .${error.message}`,
+          text: `Ha ocurrido un error .${error.message}`,
           icon: "error",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
         throw new Error(error.message);
       }
-      set((state) => ({ data: state.data ? [...state.data, quiniela] : [quiniela] }));
+      set((state) => ({
+        data: state.data ? [...state.data, quiniela] : [quiniela],
+      }));
     } catch (error) {
       console.log(error);
     }

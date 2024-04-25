@@ -18,7 +18,6 @@ const Status = () => {
     setDay(d);
   };
 
-
   const {
     isLoading,
     data: matches,
@@ -28,8 +27,9 @@ const Status = () => {
     queryFn: async () => {
       return await getMatches(day);
     },
+    staleTime: 30 * 1000,//30 seconds para que pase a Stale ( )
   });
-  
+
   return (
     <div>
       <div className="flex space-x-4 mb-2 md:mb-4">

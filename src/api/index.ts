@@ -46,11 +46,11 @@ export const getMatchesbyDate = async (date: string) => {
 export const getMatches = async (day: string) => {
   const nextDay = moment(day).add(2, "days").format("YYYY-MM-DD");
   try {
-    let url = `http://localhost:3000/api?dateFrom=${day}&dateTo=${nextDay}`;
+    let url = `https://quiniela-app-opal.vercel.app?dateFrom=${day}&dateTo=${nextDay}`;
     const response = await fetch(url);
     const data = await response.json();
     const grouped = groupMatchesByDate(data);
-    console.log(grouped);
+    // console.log(grouped);
 
     return grouped;
   } catch (error) {

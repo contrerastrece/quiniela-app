@@ -1,12 +1,16 @@
+export * from './league/AllPredictions';
 export { default as Competition } from './league/Competition';
+export * from './league/ComponentLottie';
 export * from './league/FormMatch';
 export * from './league/InputScore';
 export { default as LeagueTable } from './league/LeagueTable';
 export { default as Matches } from './league/Matches';
 export * from './league/Result';
 export { default as Status } from './league/Status';
+export * from './league/TeamLottie';
 export * from './league/Ticket';
 export { default as TansTackProvider } from './provider/TansTackProvider';
+export * from './ui/buttons/BtnLogOut';
 export * from './ui/buttons/BtnSave';
 export * from './ui/card/Card';
 export * from './ui/dot/LiveDot';

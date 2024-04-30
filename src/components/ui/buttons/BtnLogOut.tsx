@@ -1,15 +1,19 @@
-import createSupabaseServerClient from "@/lib/supabase/server";
+"use client";
+import useSupabaseClient from "@/lib/supabase/client";
 import React from "react";
 
 export const BtnLogOut = () => {
-  const logoutAction = async () => {
-    'use server'
-    const supabase = await createSupabaseServerClient();
+  const supabase = useSupabaseClient();
+  const logOut = async () => {
     await supabase.auth.signOut();
+
+    window.location.reload();
   };
   return (
-    <form action={logoutAction} className="flex">
-      <button className="ml-4 text-red-500 ">Logout</button>
-    </form>
+    // <form action={logoutAction} className="flex">
+    <button className="ml-4 text-red-500 " onClick={logOut}>
+      Logout
+    </button>
+    // </form>
   );
 };

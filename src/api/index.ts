@@ -107,3 +107,41 @@ export const getResultByMatch = async (id: string) => {
     console.log(error);
   }
 };
+
+interface pronosticProp {
+  score_home: number;
+  score_visit: number;
+  result: string;
+}
+interface resultProp {
+  score_homeTeam: number;
+  score_awayTeam: number;
+  result: string;
+}
+export const calculatePoints = async(
+  pronosticUser: pronosticProp,
+  resultMatch: resultProp
+) => {
+
+  let point = 0;
+  // comparar el pronostico
+  if (pronosticUser.score_home === resultMatch.score_homeTeam) {
+    point += 1
+  }
+  if (pronosticUser.score_visit === resultMatch.score_awayTeam) {
+    point += 1;
+  }
+  if (pronosticUser.result === resultMatch.result) {
+    point += 1;
+  }
+  // PENALIDAD
+  if (point === 0) {
+    point -= 1;
+  }
+  // bONUS
+  if (point === 3) {
+    point = 4;
+  }
+
+  return point;
+};

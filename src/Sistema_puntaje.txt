@@ -1,0 +1,14 @@
+Cómo funciona:
+
+Acierto del resultado final: Si adivinas quién ganará el partido o si será empate, ganas 1 punto.
+Acierto en los goles de cada equipo: Si adivinas cuántos goles marcará el equipo local y/o el equipo visitante, ganas 1 punto por cada equipo.
+Bonus especial: Si adivinas el resultado exacto del partido (quién gana y cuántos goles marcan ambos equipos), ¡ganarás 1 punto extra!
+Penalización: Si no adivinas nada, se te resta 1 punto, pero no te preocupes, ¡es parte del juego!
+Ejemplo:
+
+Imagina que dices que el equipo local ganará 2-1, pero el partido termina empatado 1-1.
+
+Resultado final: Como no acertaste quién ganaría o si sería empate, no ganas puntos aquí.
+Goles de cada equipo: Aunque no adivinaste exactamente cuántos goles marcaría el equipo local, sí adivinaste cuántos goles marcaría el equipo visitante. Así que ganas 1 punto por eso.
+Bonus: No obtienes ningún punto extra porque no adivinaste el resultado exacto del partido.
+En resumen, en este caso, ganarías 1 punto por haber acertado los goles del equipo visitante. Y como no acertaste el resultado final ni los goles del equipo local, tu puntaje final sería de 1 punto.

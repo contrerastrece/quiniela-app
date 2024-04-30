@@ -2,10 +2,9 @@
 import moment from "moment";
 import Image from "next/image";
 import React from "react";
-import { Result } from "./Result";
-import { getResultByMatch } from "@/api";
+import { calculatePoints, getResultByMatch } from "@/api";
 import { useQuery } from "@tanstack/react-query";
-import { IoCheckmark, IoCloseCircle } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
 interface ticketProps {
   id: number;
@@ -21,8 +20,6 @@ interface ticketProps {
 }
 
 export const Ticket = ({ data }: any) => {
-  // console.log(data);
-
   const {
     isLoading,
     data: result,
@@ -34,10 +31,42 @@ export const Ticket = ({ data }: any) => {
     },
   });
 
-  // console.log(result);
+  const calculateResultFinal = (scoreHome: number, scoreVisit: number) => {
+    let final = "";
+    if (scoreHome === scoreVisit) {
+      final = "Empate";
+    } else if (scoreHome > scoreVisit) {
+      final = "Local";
+    } else {
+      final = "Visita";
+    }
+    return final;
+  };
 
+  // console.log(result);
+  let pronostic = {
+    score_home: data.score_home,
+    score_visit: data.score_visit,
+    result: calculateResultFinal(data.score_home, data.score_visit),
+  };
+
+  let resultMatch = {
+    score_homeTeam: result?.score?.fullTime.home,
+    score_awayTeam: result?.score?.fullTime.away,
+    result: calculateResultFinal(
+      result?.score?.fullTime.home,
+      result?.score?.fullTime.away
+    ),
+  };
+
+  const { data: points } = useQuery({
+    queryKey: ["Points", result?.id],
+    queryFn: async () => {
+      return await calculatePoints(pronostic, resultMatch);
+    },
+  });
   return (
-    <div key={data.id_match} className="flex  flex-col gap-1 px-5">
+    <div className="flex  flex-col gap-1 px-5 relative">
       <p className="text-xs font-thin">
         {moment(data.created_at).format("YYYY-MM-DD HH:mm:ss ")}
       </p>
@@ -50,23 +79,31 @@ export const Ticket = ({ data }: any) => {
             alt=""
             className="aspect-auto  object-contain"
           />
-          <p>{data.name_home}</p>
+          <p
+            className={
+              result?.score?.winner === "HOME_TEAM"
+                ? "font-semibold"
+                : "font-extralight"
+            }
+          >
+            {data.name_home} {data.score_home > data.score_visit ? "•" : ""}
+          </p>
         </div>
         <div className="flex gap-2">
           <p className="font-thin">{data.score_home}</p>
           <p>{result?.score?.fullTime?.home}</p>
           {result?.status === "FINISHED" && (
-            <>
+            <div className=" flex items-center justify-center">
               {data.score_home == result?.score?.fullTime?.home ? (
                 <IoCheckmarkCircle className="text-green-500" />
               ) : (
-                <IoCloseCircle className="text-red-500" />
+                <IoCloseOutline className="text-red-400" />
               )}
-            </>
+            </div>
           )}
         </div>
       </div>
-      <div className=" flex justify-between">
+      <div className=" flex justify-between rounded-md">
         <div className=" flex gap-2">
           <Image
             src={data.image_visit!}
@@ -75,22 +112,39 @@ export const Ticket = ({ data }: any) => {
             alt=""
             className="aspect-auto  object-contain"
           />
-          <p>{data.name_visit}</p>
+          <p
+            className={
+              result?.score?.winner === "AWAY_TEAM"
+                ? "font-semibold"
+                : "font-extralight"
+            }
+          >
+            {data.name_visit} {data.score_home < data.score_visit ? "•" : ""}
+          </p>
         </div>
         <div className=" flex gap-2">
           <p className="font-thin">{data.score_visit}</p>
           <p>{result?.score?.fullTime?.away}</p>
           {result?.status === "FINISHED" && (
-            <>
+            <div className=" flex items-center justify-center">
               {data.score_visit === result?.score?.fullTime?.away ? (
-                <IoCheckmarkCircle className="text-green-500" />
+                <IoCheckmarkCircle className="text-green-500 " />
               ) : (
-                <IoCloseCircle className="text-red-500" />
+                <IoCloseOutline className="text-red-400" />
               )}
-            </>
+            </div>
           )}
         </div>
       </div>
+      {result?.status === "FINISHED" && (
+        <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-teal-400">
+          {points! > 0 ? (
+            <p>+{points} ptos.</p>
+          ) : (
+            <p className="text-red-400">{points} pto.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

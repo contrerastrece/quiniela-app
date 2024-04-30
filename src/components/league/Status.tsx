@@ -30,6 +30,8 @@ const Status = () => {
     staleTime: 30 * 1000,//30 seconds para que pase a Stale ( )
   });
 
+  
+
   return (
     <div>
       <div className="flex space-x-4 mb-2 md:mb-4">

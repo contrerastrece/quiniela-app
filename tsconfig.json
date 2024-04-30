@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(quiniela)/login/page.tsx", "src/app/(quiniela)/page.tsx", "src/app/(quiniela)/layout.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/login/page.tsx", "src/app/(quiniela)/page.tsx", "src/app/(quiniela)/layout.tsx"],
   "exclude": ["node_modules"]
 }

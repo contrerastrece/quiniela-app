@@ -1,7 +1,7 @@
-'use server'
 import Link from "next/link";
 import getUserSession from "@/lib/getUserSession";
 import { BtnLogOut } from "../buttons/BtnLogOut";
+// import { BtnLogOut } from "../buttons/BtnLogOut";
 
 const Header = async (): Promise<JSX.Element> => {
   const {
@@ -21,7 +21,10 @@ const Header = async (): Promise<JSX.Element> => {
             Profile
           </Link>
           <Link href="/predictions" className="text-white">
-            My Predictions
+            My Picks
+          </Link>
+          <Link href="/rank" className="text-white">
+            Rank
           </Link>
           {!user?.user_metadata && (
             <Link href="/login" className="text-white">

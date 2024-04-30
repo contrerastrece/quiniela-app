@@ -1,14 +1,12 @@
-// "use client";
-
-// import createSupabaseServerClient from "@/lib/supabase/server";
+// 'use client'
+import getUserSession from "@/lib/getUserSession";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import Swal from "sweetalert2";
 import { create } from "zustand";
-
 interface QuinielaItem {
   score_home: number;
   score_visit: number;
-  user_name: string;
+  // user_name: string;
   id_match: string;
   name_home: string;
   image_home: string | null;
@@ -29,13 +27,18 @@ export const useQuinielaStore = create<State>((set) => ({
   // obtener los datos
   data: null,
   getQuiniela: async () => {
+    const {data:{user}} = await getUserSession();
+    // console.log(user);
     try {
-      const { data: quiniela } = await supabase.from("tbl_quiniela").select();
-      // console.log(quiniela, "👀");
+      const { data: quiniela } = await supabase
+        .from("tbl_predictions")
+        .select()
+        .eq('id_user',user!.id)
+        .order("created_at", { ascending: false });
       set({ data: quiniela ?? [] });
       // return quiniela;
     } catch (error) {
-      console.log(error);
+      console.log(error!);
     }
   },
   // insertar el score
@@ -43,7 +46,7 @@ export const useQuinielaStore = create<State>((set) => ({
     console.log(quiniela);
     try {
       const { data, error } = await supabase
-        .from("tbl_quiniela")
+        .from("tbl_predictions")
         .insert(quiniela);
       Swal.fire({
         title: "Agregado",

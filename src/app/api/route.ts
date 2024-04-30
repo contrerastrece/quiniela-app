@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const res = await fetch(
     `https://api.football-data.org/v4/matches?dateFrom=${dateFrom}&dateTo=${dateTo}`,
     {
-      // next: { revalidate: 30 },
+      next: { revalidate: 30 },
       headers: {
         "Content-Type": "application/json",
         "X-Auth-Token": process.env.API_TOKEN!,

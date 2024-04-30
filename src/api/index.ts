@@ -97,7 +97,7 @@ export const getSevenDays = () => {
 };
 
 export const getResultByMatch = async (id: string) => {
-  let url = `http://localhost:3000/predictions/api?id=${id}`;
+  let url = `https://quiniela-app-opal.vercel.app/predictions/api?id=${id}`;
   try {
     const response = await fetch(url, options);
     const data = await response.json();

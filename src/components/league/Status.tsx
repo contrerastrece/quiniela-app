@@ -37,7 +37,7 @@ setUser(user)
 
   return (
     <div>
-      <div className="flex space-x-4 mb-2 md:mb-4">
+      <div className="flex space-x-4 mb-2 md:mb-4 overflow-x-auto ">
         {days.map((d) => (
           <button
             key={d.day}

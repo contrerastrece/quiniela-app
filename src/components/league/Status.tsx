@@ -30,7 +30,7 @@ const Status = () => {
     staleTime: 30 * 1000,//30 seconds para que pase a Stale ( )
   });
 
-  
+  console.log(matches);
 
   return (
     <div>

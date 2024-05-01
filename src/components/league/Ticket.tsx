@@ -66,7 +66,7 @@ export const Ticket = ({ data }: any) => {
     },
   });
   return (
-    <div className="flex  flex-col gap-1 px-5 relative">
+    <div className="flex  flex-col gap-1 relative bg-slate-500/10 p-2 rounded-md ">
       <p className="text-xs font-thin">
         {moment(data.created_at).format("YYYY-MM-DD HH:mm:ss ")}
       </p>
@@ -139,9 +139,9 @@ export const Ticket = ({ data }: any) => {
       {result?.status === "FINISHED" && (
         <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-teal-400">
           {points! > 0 ? (
-            <p>+{points} ptos.</p>
+            <p>+{points} pts.</p>
           ) : (
-            <p className="text-red-400">{points} pto.</p>
+            <p className="text-red-400">{points} pts.</p>
           )}
         </div>
       )}

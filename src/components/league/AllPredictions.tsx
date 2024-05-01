@@ -15,7 +15,7 @@ export const AllPredictions = () => {
     staleTime: 60 * 1000,
   });
   return (
-    <div className="flex flex-col gap-4 mx-2">
+    <div className="flex flex-col gap-4 mx-2 my-3">
       {data?.map((q) => (
         <Ticket key={q.id_match} data={q} />
       ))}

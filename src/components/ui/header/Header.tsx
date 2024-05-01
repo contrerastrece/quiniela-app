@@ -1,7 +1,8 @@
 import Link from "next/link";
 import getUserSession from "@/lib/getUserSession";
 import { BtnLogOut } from "../buttons/BtnLogOut";
-// import { BtnLogOut } from "../buttons/BtnLogOut";
+import { usePathname, useRouter } from "next/navigation";
+import { NavLinks } from "../links/NavLinks";
 
 const Header = async (): Promise<JSX.Element> => {
   const {
@@ -9,23 +10,15 @@ const Header = async (): Promise<JSX.Element> => {
   } = await getUserSession();
 
   return (
-    <header className=" h-16 bg-slate-700 px-5">
+    <header className=" h-12 bg-slate-700 px-5 sticky top-0 z-10">
       <nav className="h-full flex justify-between container items-center">
         <div>
-          <Link href="/" className="text-2xl font-semibold">
+          <Link href="/" className="text-xl font-semibold text-teal-400">
             Quiniela
           </Link>
         </div>
         <div className="flex items-center space-x-4">
-          <Link href="/profile" className="text-white">
-            Profile
-          </Link>
-          <Link href="/predictions" className="text-white">
-            My Picks
-          </Link>
-          <Link href="/rank" className="text-white">
-            Rank
-          </Link>
+          <NavLinks />
           {!user?.user_metadata && (
             <Link href="/login" className="text-white">
               Login

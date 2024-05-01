@@ -7,11 +7,14 @@ import { getMatches, getSevenDays } from "@/api";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "../ui/loader/Loading";
+import { useUserStore } from "@/store/user/userStore";
 
-const Status = () => {
+const Status = ({user}:{user:any}) => {
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
-
+  // console.log(user)
+  const setUser=useUserStore(state=>state.setUser);
+setUser(user)
   const days = getSevenDays();
 
   const handleClick = async (d: string) => {
@@ -30,7 +33,7 @@ const Status = () => {
     staleTime: 30 * 1000,//30 seconds para que pase a Stale ( )
   });
 
-  console.log(matches);
+  // console.log(matches);
 
   return (
     <div>

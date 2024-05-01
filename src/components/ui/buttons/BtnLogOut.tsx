@@ -11,9 +11,9 @@ export const BtnLogOut = () => {
   };
   return (
     // <form action={logoutAction} className="flex">
-    <button className="ml-4 text-red-500 " onClick={logOut}>
+    <button className="ml-4 text-red-400  text-sm border border-red-400 px-2 p-1 rounded-md" onClick={logOut}>
       Logout
     </button>
-    // </form>
+    // <user);>
   );
 };

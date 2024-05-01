@@ -1,4 +1,5 @@
-"use client";
+// "use client";
+import getUserSession from "@/lib/getUserSession";
 import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 import { useUserStore } from "@/store/user/userStore";
 import { Match } from "@/types";
@@ -8,11 +9,12 @@ interface BtnSaveProps {
   homeScore: number;
   awayScore: number;
 }
+
 export const BtnSave = ({ data, homeScore, awayScore }: BtnSaveProps) => {
   const user = useUserStore((state) => state.user);
   const { insertQuiniela } = useQuinielaStore();
   const { id, homeTeam, awayTeam } = data;
-  console.log(user);
+  // console.log(user);
 
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>

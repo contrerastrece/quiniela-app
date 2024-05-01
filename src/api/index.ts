@@ -46,13 +46,12 @@ export const getMatchesbyDate = async (date: string) => {
 export const getMatches = async (day: string) => {
   const nextDay = moment(day).add(2, "days").format("YYYY-MM-DD");
   try {
-    // let url = `http://localhost:3000/api?dateFrom=${day}&dateTo=${nextDay}`;
-    let url = `https://quiniela-app-opal.vercel.app/api?dateFrom=${day}&dateTo=${nextDay}`;
-    console.log(url);
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/api?dateFrom=${day}&dateTo=${nextDay}`;
+    // let url = `https://quiniela-app-opal.vercel.app/api?dateFrom=${day}&dateTo=${nextDay}`;
     const response = await fetch(url);
     const data = await response.json();
     const grouped = groupMatchesByDate(data);
-    console.log(grouped);
+    // console.log(grouped);
 
     return grouped;
   } catch (error) {
@@ -99,12 +98,12 @@ export const getSevenDays = () => {
 };
 
 export const getResultByMatch = async (id: string) => {
-  // let url = `http://localhost:3000/predictions/api?id=${id}`;
-  let url = `https://quiniela-app-opal.vercel.app/predictions/api?id=${id}`;
+  let url = `${process.env.NEXT_PUBLIC_API_URL}/predictions/api?id=${id}`;
+  // let url = `https://quiniela-app-opal.vercel.app/predictions/api?id=${id}`;
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (error) {
     console.log(error);
@@ -121,15 +120,14 @@ interface resultProp {
   score_awayTeam: number;
   result: string;
 }
-export const calculatePoints = async(
+export const calculatePoints = async (
   pronosticUser: pronosticProp,
   resultMatch: resultProp
 ) => {
-
   let point = 0;
   // comparar el pronostico
   if (pronosticUser.score_home === resultMatch.score_homeTeam) {
-    point += 1
+    point += 1;
   }
   if (pronosticUser.score_visit === resultMatch.score_awayTeam) {
     point += 1;

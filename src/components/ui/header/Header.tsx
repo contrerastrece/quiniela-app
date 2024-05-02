@@ -19,12 +19,8 @@ const Header = async (): Promise<JSX.Element> => {
         </div>
         <div className="flex items-center space-x-4">
           <NavLinks />
-          {!user?.user_metadata && (
-            <Link href="/login" className="text-white">
-              Login
-            </Link>
-          )}
-          {user?.user_metadata && <BtnLogOut />}
+
+          {/* {user?.user_metadata && <BtnLogOut />} */}
         </div>
       </nav>
     </header>

@@ -18,3 +18,4 @@ export { default as Header } from './ui/header/Header';
 export * from './ui/links/NavLinks';
 export * from './ui/loader/Loading';
 export * from './ui/not-found/PageNotFound';
+export * from './ui/table/Rank';

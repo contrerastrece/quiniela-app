@@ -6,7 +6,11 @@ import { InputScore } from "./InputScore";
 import { Match } from "@/types";
 import moment from "moment";
 
-export const FormMatch = ({ data }: { data: Match }) => {
+type propsMatch = {
+  data: Match;
+  existMatch: boolean;
+};
+export const FormMatch = ({ data, existMatch }: propsMatch) => {
   const getDate = moment(data.utcDate).format(" hh:mm A");
   const { homeTeam, awayTeam, id } = data;
 
@@ -21,7 +25,6 @@ export const FormMatch = ({ data }: { data: Match }) => {
     setAwayScore(value);
   };
 
-  
   return (
     <form className=" flex flex-col">
       <p className="text-xs text-teal-400  text-center">{getDate}</p>
@@ -34,7 +37,7 @@ export const FormMatch = ({ data }: { data: Match }) => {
         </div>
         <Card url={awayTeam.crest!} shortName={awayTeam.shortName} />
       </div>
-      <BtnSave data={data} homeScore={homeScore} awayScore={awayScore} />
+      <BtnSave data={data} homeScore={homeScore} awayScore={awayScore} existMatch={existMatch}/>
     </form>
   );
 };

@@ -18,7 +18,7 @@ interface QuinielaItem {
 
 interface State {
   data: QuinielaItem[] | null;
-  getQuiniela: () => Promise<void>;
+  getQuiniela: () => Promise<any[] | null | undefined>;
   insertQuiniela: (quiniela: QuinielaItem) => Promise<void>;
 }
 const supabase = getSupabaseBrowserClient();
@@ -36,7 +36,7 @@ export const useQuinielaStore = create<State>((set) => ({
         .eq('id_user',user!.id)
         .order("created_at", { ascending: false });
       set({ data: quiniela ?? [] });
-      // return quiniela;
+      return quiniela;
     } catch (error) {
       console.log(error!);
     }

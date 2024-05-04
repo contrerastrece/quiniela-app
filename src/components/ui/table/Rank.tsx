@@ -14,8 +14,9 @@ export const Rank = () => {
       return await getUsers();
     },
   });
+  // console.log(data);
   return (
-    <div className="">
+    <div className="boder">
       <Fade cascade direction="down">
         <ul className="flex flex-col justify-center gap-2">
           {data?.map((user, index) => (
@@ -34,7 +35,7 @@ export const Rank = () => {
                 />
                 {user.name}
               </div>
-              <span>42 pts</span>
+              <span>{user.total_points}</span>
             </li>
           ))}
         </ul>

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { Bounce } from "react-awesome-reveal";
+import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 interface ticketProps {
   id: number;
   created_at: string;
@@ -22,15 +23,16 @@ interface ticketProps {
 
 export const Ticket = ({ data }: any) => {
   const {
-    isLoading,
     data: result,
-    error,
   } = useQuery({
     queryKey: ["result", data.id_match],
     queryFn: async () => {
       return await getResultByMatch(data.id_match);
     },
   });
+
+  const updateQuiniela = useQuinielaStore((state) => state.updateQuiniela);
+  
 
   const calculateResultFinal = (scoreHome: number, scoreVisit: number) => {
     let final = "";
@@ -66,6 +68,18 @@ export const Ticket = ({ data }: any) => {
       return await calculatePoints(pronostic, resultMatch);
     },
   });
+  const update=async(data:any)=>{
+    await updateQuiniela(data)
+  }
+
+  if (result?.status === "FINISHED") {
+    let parametros={
+      id_match: result?.id,
+      points:points,
+      status_match: result?.status
+    }
+    update(parametros)
+  }
   return (
     <>
       <div className="flex  flex-col gap-1 relative bg-slate-500/10 p-2 rounded-md ">

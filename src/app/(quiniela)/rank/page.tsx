@@ -12,7 +12,7 @@ const RankPage = async () => {
   }
 
   return (
-    <div className="flex flex-col p-2">
+    <div className="flex flex-col p-4 border">
       {/* List User */}
       <Rank />
     </div>

@@ -1,7 +1,9 @@
-// "use client";
+"use client";
 import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 import { useUserStore } from "@/store/user/userStore";
 import { Match } from "@/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 interface BtnSaveProps {
   data: Match;
@@ -19,25 +21,33 @@ export const BtnSave = ({
   const user = useUserStore((state) => state.user);
   const { insertQuiniela } = useQuinielaStore();
   const { id, homeTeam, awayTeam } = data;
-  // console.log(user);
-  // console.log(existMatch);
+  const quiniela = {
+    id_user: user!.id,
+    image_home: homeTeam.crest,
+    image_visit: awayTeam.crest,
+    name_home: homeTeam.shortName,
+    name_visit: awayTeam.shortName,
+    score_home: homeScore,
+    score_visit: awayScore,
+    id_match: id.toString(),
+  };
 
+  const queryClient = useQueryClient();
+  // console.log(objFilter?.id_match,objFilter?.score_home)
+  const mutation = useMutation({
+    mutationFn: async () => {
+      await insertQuiniela(quiniela);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["predictionsUser"] });
+    },
+  });
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
 
-    const quiniela = {
-      id_user: user!.id,
-      image_home: homeTeam.crest,
-      image_visit: awayTeam.crest,
-      name_home: homeTeam.shortName,
-      name_visit: awayTeam.shortName,
-      score_home: homeScore,
-      score_visit: awayScore,
-      id_match: id.toString(),
-    };
-    await insertQuiniela(quiniela);
+    mutation.mutate();
   };
   return (
     <button

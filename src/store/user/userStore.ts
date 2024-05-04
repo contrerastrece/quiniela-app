@@ -17,11 +17,7 @@ export const useUserStore = create<UserState>((set) => ({
   setUser: (user) => set({ user }),
   getUsers: async () => {
     try {
-      const { data: users } = await supabase
-        .from("tbl_users")
-        .select()
-        // .order("points", { ascending: false });
-
+      const { data: users, error } = await supabase.rpc("get_user_points");
       return users;
     } catch (error) {
       console.log(error!);

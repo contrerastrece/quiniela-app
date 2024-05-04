@@ -20,6 +20,7 @@ interface State {
   data: QuinielaItem[] | null;
   getQuiniela: () => Promise<any[] | null | undefined>;
   insertQuiniela: (quiniela: QuinielaItem) => Promise<void>;
+  updateQuiniela: (p: { id_match: string; points: number,status_match:string }) => Promise<any[] | null | undefined>;
 }
 const supabase = getSupabaseBrowserClient();
 
@@ -27,13 +28,15 @@ export const useQuinielaStore = create<State>((set) => ({
   // obtener los datos
   data: null,
   getQuiniela: async () => {
-    const {data:{user}} = await getUserSession();
+    const {
+      data: { user },
+    } = await getUserSession();
     // console.log(user);
     try {
       const { data: quiniela } = await supabase
         .from("tbl_predictions")
         .select()
-        .eq('id_user',user!.id)
+        .eq("id_user", user!.id)
         .order("created_at", { ascending: false });
       set({ data: quiniela ?? [] });
       return quiniela;
@@ -43,7 +46,7 @@ export const useQuinielaStore = create<State>((set) => ({
   },
   // insertar el score
   insertQuiniela: async (quiniela) => {
-    console.log(quiniela);
+    // console.log(quiniela);
     try {
       const { data, error } = await supabase
         .from("tbl_predictions")
@@ -70,6 +73,23 @@ export const useQuinielaStore = create<State>((set) => ({
       }));
     } catch (error) {
       console.log(error);
+    }
+  },
+  updateQuiniela: async (p) => {
+    const {
+      data: { user },
+    } = await getUserSession();
+
+    try {
+      const { data, error } = await supabase
+      .from("tbl_predictions")
+      .update({ points: p.points,status_match: p.status_match})
+      .eq("id_user", user!.id)
+      .eq("id_match", p.id_match)
+      .is('status_match',null)
+      return data;
+    } catch (error) {
+      alert(error);
     }
   },
 }));

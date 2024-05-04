@@ -14,11 +14,8 @@ export default async function ProfilePage() {
 
   return (
     <section className="min-h-screen pt-20">
-      <div className="max-w-4xl mx-auto rounded-md h-[20rem] flex justify-center items-center">
+      <div className="max-w-4xl mx-auto rounded-md flex justify-center items-center border">
         <div>
-          <p className="mb-3 text-5xl text-center font-semibold">
-            Profile Page
-          </p>
           <div className="mt-8 text-white">
             <p className="mb-3 text-white">Email: {user!.user_metadata.email}</p>
             <Image

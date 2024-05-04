@@ -9,6 +9,7 @@ export * from './league/Result';
 export { default as Status } from './league/Status';
 export * from './league/TeamLottie';
 export * from './league/Ticket';
+export * from './league/TicketFake';
 export { default as TansTackProvider } from './provider/TansTackProvider';
 export * from './ui/buttons/BtnLogOut';
 export * from './ui/buttons/BtnSave';

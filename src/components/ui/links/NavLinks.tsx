@@ -18,6 +18,10 @@ export const NavLinks = () => {
       name: "Top",
       pathName: "/rank",
     },
+    {
+      name: "About",
+      pathName: "/about",
+    },
   ];
   return (
     <div className="flex gap-2">

@@ -16,13 +16,13 @@ export const Rank = () => {
   });
   // console.log(data);
   return (
-    <div className="boder">
+    <div className="">
       <Fade cascade direction="down">
         <ul className="flex flex-col justify-center gap-2">
           {data?.map((user, index) => (
             <li
               key={user.id}
-              className="text-white text-xs flex  justify-between "
+              className="text-white text-xs flex  justify-between items-center"
             >
               <div className="flex gap-2 items-center">
                 {index + 1}.

@@ -63,7 +63,7 @@ const Status = ({ user }: { user: any }) => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Fade cascade direction="down">
+          <Fade >
             {matches![day]?.map((match) => (
               <LeagueTable data={match} key={match.id} />
             ))}

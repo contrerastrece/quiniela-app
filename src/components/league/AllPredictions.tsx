@@ -3,7 +3,7 @@ import React from "react";
 import { Ticket } from "./Ticket";
 import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 import { useQuery } from "@tanstack/react-query";
-import {  Fade } from "react-awesome-reveal";
+import {  Fade, Zoom } from "react-awesome-reveal";
 
 export const AllPredictions = () => {
   const { getQuiniela } = useQuinielaStore();
@@ -17,11 +17,11 @@ export const AllPredictions = () => {
   });
   return (
     <div className="flex flex-col gap-4 mx-2 my-3">
-      <Fade  cascade direction="down">
+      <Zoom >
         {data?.map((q) => (
           <Ticket key={q.id_match} data={q} />
         ))}
-      </Fade>
+      </Zoom>
     </div>
   );
 };

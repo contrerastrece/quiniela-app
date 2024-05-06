@@ -35,14 +35,14 @@ const AboutPage = () => {
           </h2>
           <p className="text-gray-200 ">
             Acierto del resultado final:{" "}
-            <span className="text-gray-400 text-xs ">
+            <span className="text-gray-400 text-sm ">
               Si adivinas quién ganará el partido o si será empate, ganas{" "}
               <span className="text-teal-400">1 punto</span>.
             </span>
           </p>
           <p className="text-gray-200">
             Acierto en los goles de cada equipo:{" "}
-            <span className="text-gray-400 text-xs ">
+            <span className="text-gray-400 text-sm ">
               Si adivinas cuántos goles marcará el equipo local y/o el equipo
               visitante, ganas <span className="text-teal-400">1 punto</span>{" "}
               por cada equipo.
@@ -50,7 +50,7 @@ const AboutPage = () => {
           </p>
           <p className="text-gray-200 text-base">
             Bonus especial:{" "}
-            <span className="text-xs text-gray-400">
+            <span className="text-sm text-gray-400">
               Si adivinas el resultado exacto del partido (quién gana y cuántos
               goles marcan ambos equipos), ¡ganarás{" "}
               <span className="text-teal-400">1 punto extra</span>!
@@ -58,7 +58,7 @@ const AboutPage = () => {
           </p>
           <p className="text-gray-200">
             Penalización:{" "}
-            <span className="text-xs text-gray-400">
+            <span className="text-sm text-gray-400">
               Si no adivinas nada, se te resta{" "}
               <span className="text-red-400">1 punto</span>, pero no te
               preocupes, ¡es parte del juego!

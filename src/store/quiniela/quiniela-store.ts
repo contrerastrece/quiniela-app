@@ -6,21 +6,29 @@ import { create } from "zustand";
 interface QuinielaItem {
   score_home: number;
   score_visit: number;
-  // user_name: string;
   id_match: string;
   name_home: string;
   image_home: string | null;
   name_visit: string;
   image_visit: string | null;
   created_at?: string;
-  // Agrega aquí otros campos si es necesario
+  points?: number | null;
+  status_match?: string | null;
+  result_visit?: number | null;
+  result_home?: number | null;
 }
 
 interface State {
   data: QuinielaItem[] | null;
   getQuiniela: () => Promise<any[] | null | undefined>;
   insertQuiniela: (quiniela: QuinielaItem) => Promise<void>;
-  updateQuiniela: (p: { id_match: string; points: number,status_match:string }) => Promise<any[] | null | undefined>;
+  updateQuiniela: (p: {
+    id_match: string;
+    points: number;
+    status_match: string;
+    result_home: number;
+    result_visit: number;
+  }) => Promise<any[] | null | undefined>;
 }
 const supabase = getSupabaseBrowserClient();
 
@@ -81,12 +89,15 @@ export const useQuinielaStore = create<State>((set) => ({
     } = await getUserSession();
 
     try {
-      const { data, error } = await supabase
-      .from("tbl_predictions")
-      .update({ points: p.points,status_match: p.status_match})
-      .eq("id_user", user!.id)
-      .eq("id_match", p.id_match)
-      .is('status_match',null)
+      const { data } = await supabase
+        .from("tbl_predictions")
+        .update({
+          status_match: p.status_match,
+          result_home: p.result_home,
+          result_visit: p.result_visit,
+        })
+        .eq("id_user", user!.id)
+        .eq("id_match", p.id_match);
       return data;
     } catch (error) {
       alert(error);

@@ -7,7 +7,7 @@ const Competition = ({ data }: { data: Match }) => {
   // const a=moment(nd).format('ddd  DD MM YYYY');
   // console.log(a);
   // console.log(nd)
-  const dateConvert =moment(nd).format('ddd  DD MM YYYY');
+  const dateConvert =moment(nd).format('DD.MM.YYYY');
 
   // console.log(dateConvert)
   // console.log(data)
@@ -21,7 +21,7 @@ const Competition = ({ data }: { data: Match }) => {
           height={25}
           className="aspect-auto  bg-white rounded-md p-[2px]"
         />
-        <p className="text-sm text-teal-400">{data?.competition.name}</p>
+        <p className="text-sm text-teal-400 truncate">{data?.competition.name}</p>
       </div>
       <p className="text-xs md:text-sm">{dateConvert}</p>
     </div>

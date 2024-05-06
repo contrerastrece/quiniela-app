@@ -25,7 +25,7 @@ export const InputScore = ({ value, onChange, scoreUser }: InputScoreProps) => {
     // Actualizar el estado con el nuevo valor
     setValor(event.target.value);
   };
-  console.log(scoreUser);
+  // console.log(scoreUser);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Actualizar el estado solo si se ingresa un dígito válido
     const nuevoValor = event.target.value.replace(/\D/, ""); // Eliminar cualquier carácter que no sea un dígito

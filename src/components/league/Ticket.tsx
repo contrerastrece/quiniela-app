@@ -2,11 +2,10 @@
 import moment from "moment";
 import Image from "next/image";
 import React from "react";
-import { calculatePoints, getResultByMatch } from "@/api";
+import { getResultByMatch } from "@/api";
 import { useQuery } from "@tanstack/react-query";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { Bounce } from "react-awesome-reveal";
 import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 interface ticketProps {
   id: number;
@@ -22,64 +21,29 @@ interface ticketProps {
 }
 
 export const Ticket = ({ data }: any) => {
-  const {
-    data: result,
-  } = useQuery({
+  const { data: result } = useQuery({
     queryKey: ["result", data.id_match],
     queryFn: async () => {
       return await getResultByMatch(data.id_match);
     },
   });
 
-  const updateQuiniela = useQuinielaStore((state) => state.updateQuiniela);
-  
+  // const updateQuiniela = useQuinielaStore((state) => state.updateQuiniela);
+  // const { data: tbl_predictions } = useQuinielaStore();
+  // console.log(tbl_predictions);
 
-  const calculateResultFinal = (scoreHome: number, scoreVisit: number) => {
-    let final = "";
-    if (scoreHome === scoreVisit) {
-      final = "Empate";
-    } else if (scoreHome > scoreVisit) {
-      final = "Local";
-    } else {
-      final = "Visita";
-    }
-    return final;
-  };
-
-  // console.log(result);
-  let pronostic = {
-    score_home: data.score_home,
-    score_visit: data.score_visit,
-    result: calculateResultFinal(data.score_home, data.score_visit),
-  };
-
-  let resultMatch = {
-    score_homeTeam: result?.score?.fullTime.home,
-    score_awayTeam: result?.score?.fullTime.away,
-    result: calculateResultFinal(
-      result?.score?.fullTime.home,
-      result?.score?.fullTime.away
-    ),
-  };
-
-  const { data: points } = useQuery({
-    queryKey: ["Points", result?.id],
-    queryFn: async () => {
-      return await calculatePoints(pronostic, resultMatch);
-    },
-  });
-  const update=async(data:any)=>{
-    await updateQuiniela(data)
-  }
-
-  if (result?.status === "FINISHED") {
-    let parametros={
-      id_match: result?.id,
-      points:points,
-      status_match: result?.status
-    }
-    update(parametros)
-  }
+  // const update = async (data: any) => {
+  //   await updateQuiniela(data);
+  // };
+  // if (result?.status === "FINISHED") {
+  //   let parametros = {
+  //     id_match: result?.id,
+  //     status_match: result?.status,
+  //     result_home: result?.score.fullTime.home,
+  //     result_visit: result?.score.fullTime.away,
+  //   };
+  //   update(parametros);
+  // }
   return (
     <>
       <div className="flex  flex-col gap-1 relative bg-slate-500/10 p-2 rounded-md ">
@@ -152,15 +116,13 @@ export const Ticket = ({ data }: any) => {
             )}
           </div>
         </div>
+
         {result?.status === "FINISHED" && (
           <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-teal-400">
-            {points! > 0 ? (
-              <p>+{points} pts.</p>
-            ) : (
-              <p className="text-red-400">{points} pts.</p>
-            )}
+            points
           </div>
         )}
+
       </div>
     </>
   );

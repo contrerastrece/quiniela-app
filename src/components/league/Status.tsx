@@ -8,7 +8,7 @@ import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import { Loading } from "../ui/loader/Loading";
 import { useUserStore } from "@/store/user/userStore";
-import { Bounce, Fade } from "react-awesome-reveal";
+import { Bounce, Fade, Zoom } from "react-awesome-reveal";
 
 const Status = ({ user }: { user: any }) => {
   const hoy = moment().format("YYYY-MM-DD");
@@ -63,11 +63,11 @@ const Status = ({ user }: { user: any }) => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Fade >
+          <Zoom  >
             {matches![day]?.map((match) => (
               <LeagueTable data={match} key={match.id} />
             ))}
-          </Fade>
+          </Zoom>
         )}
       </div>
     </div>

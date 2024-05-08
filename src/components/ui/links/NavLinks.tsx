@@ -29,7 +29,7 @@ export const NavLinks = () => {
         <Link
           key={link.name}
           href={link.pathName}
-          className={` text-sm ${path===link.pathName?'font-semibold text-teal-400':'text-white'} hover:font-bold transition-all`}
+          className={` text-sm  ${path===link.pathName?'font-semibold text-teal-400':'text-white'} hover:font-bold transition-all`}
         >
           {link.name}
         </Link>

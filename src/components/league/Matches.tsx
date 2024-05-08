@@ -43,7 +43,7 @@ const Matches = ({ data }: { data: Match }) => {
           data?.status === "FINISHED" ||
           data?.status === "PAUSED" ? (
             <div className="flex flex-col">
-              <p
+              <div
                 className={`py-1 ${
                   data.status === "FINISHED" ? "text-white" : "text-teal-400"
                 } text-2xl text-center`}
@@ -79,7 +79,7 @@ const Matches = ({ data }: { data: Match }) => {
                     </div>
                   )}
                 </>
-              </p>
+              </div>
             </div>
           ) : (
             <>

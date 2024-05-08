@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     .from("tbl_predictions")
     .select()
     .eq("status_match", 'TIMED');
-  console.log(data?.length);
+  // console.log(data?.length);
   // asegurarse de que matches sea un array
   const matchesArray = Array.isArray(matches)
     ? matches
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
   // console.log(matchesArray)
   // acceder al array interno dentro de matchesArray
   const nestedMatches = matchesArray.find((item) => Array.isArray(item));
-  console.log(nestedMatches.length);
+  // console.log(nestedMatches.length);
 
   const filteredMatches = nestedMatches.filter(
     (objeto: any) =>

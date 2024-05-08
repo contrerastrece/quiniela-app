@@ -13,7 +13,6 @@ import { Bounce, Fade, Zoom } from "react-awesome-reveal";
 const Status = ({ user }: { user: any }) => {
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
-  // console.log(user)
   const setUser = useUserStore((state) => state.setUser);
   setUser(user);
   const days = getSevenDays();
@@ -34,13 +33,9 @@ const Status = ({ user }: { user: any }) => {
     staleTime: 30 * 1000, //30 seconds para que pase a Stale ( )
   });
 
-  // console.log(matches);
-
-  
-
   return (
     <div>
-      <div className="flex gap-2 mb-2 md:mb-4 overflow-x-auto py-2  p-1 ">
+      <div className="flex gap-3 mb-2 md:mb-4 overflow-x-auto py-2  p-1 ">
         {days.map((d) => (
           <button
             key={d.day}
@@ -63,7 +58,7 @@ const Status = ({ user }: { user: any }) => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Zoom  >
+          <Zoom>
             {matches![day]?.map((match) => (
               <LeagueTable data={match} key={match.id} />
             ))}

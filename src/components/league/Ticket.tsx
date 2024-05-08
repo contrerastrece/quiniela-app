@@ -6,7 +6,6 @@ import { getResultByMatch } from "@/api";
 import { useQuery } from "@tanstack/react-query";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 interface ticketProps {
   id: number;
   created_at: string;
@@ -27,7 +26,6 @@ export const Ticket = ({ data }: any) => {
       return await getResultByMatch(data.id_match);
     },
   });
-  console.log(data);
 
   return (
     <>

@@ -20,7 +20,7 @@ interface ticketProps {
 }
 
 export const Ticket = ({ data }: any) => {
-  console.log(data);
+  // console.log(data);
 
   return (
     <>

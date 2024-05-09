@@ -7,24 +7,22 @@ import { Fade } from "react-awesome-reveal";
 import { FaMedal, FaTrophy } from "react-icons/fa";
 import { IoMdMedal } from "react-icons/io";
 
-export const Rank = () => {
+export const Rank = ({usuario}:any) => {
   const getUsers = useUserStore((state) => state.getUsers);
-
   const { data } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       return await getUsers();
     },
   });
-  // console.log(data);
   return (
     <div className="" >
-      <Fade cascade direction="down">
+      <Fade cascade direction="down" triggerOnce={true}>
         <ul className="flex flex-col justify-center gap-2">
           {data?.map((user, index) => (
             <li
               key={user.id_user}
-              className="text-white text-xs flex justify-between items-center"
+              className={`text-white text-xs flex justify-between px-2 items-center ${user.id_user===usuario.id?' bg-slate-700/50 rounded-md':''}`}
             >
               <div className="flex gap-2 items-center">
                 {index + 1 === 1 && (

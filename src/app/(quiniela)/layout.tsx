@@ -1,6 +1,4 @@
-// import { Footer, Sidebar, TopMenu } from "@/components";
-
-import { Header } from "@/components";
+import { Footer, Header } from "@/components";
 
 export default function ShopLayout({
   children,
@@ -9,12 +7,10 @@ export default function ShopLayout({
 }) {
   return (
     <div className="min-h-screen">
-      
-      {/* <TopMenu /> */}
       <Header />
 
-      <div className="px-0">{children}</div>
-      {/* <Footer/> */}
+      <div className="min-h-[calc(100vh_-_7rem)]">{children}</div>
+      <Footer />
     </div>
   );
 }

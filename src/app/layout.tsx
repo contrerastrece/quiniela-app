@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={inter.className}>
-        <main className="bg-slate-900">
+      <body className={`${inter.className} bg-slate-900`}>
+        <main className="">
           <TansTackProvider>{children}</TansTackProvider>
         </main>
       </body>

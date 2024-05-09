@@ -13,7 +13,7 @@ type TiketFakeType = {
 
 export const TicketFake = ({ data }: any) => {
   return (
-    <div className="p-2 flex flex-col gap-2 rounded-md bg-slate-500/10 relative">
+    <div className="p-2 flex flex-col gap-2 rounded-md bg-slate-500/10 relative max-w-md mx-auto">
       <div className=" flex gap-2 items-center justify-between">
         <div className="flex gap-2 items-center">
           <Image

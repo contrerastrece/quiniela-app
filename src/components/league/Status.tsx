@@ -35,7 +35,7 @@ const Status = ({ user }: { user: any }) => {
 
   return (
     <div>
-      <div className="flex gap-3 mb-2 md:mb-4 overflow-x-auto py-2  p-1 ">
+      <div className="flex gap-3 m-2 md:mb-4 overflow-x-auto py-2  p-1 ">
         {days.map((d) => (
           <button
             key={d.day}

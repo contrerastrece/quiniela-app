@@ -16,7 +16,7 @@ export const AllPredictions = () => {
     staleTime: 60 * 1000,
   });
   return (
-    <div className="flex flex-col gap-4 mx-2 my-3">
+    <div className="flex flex-col gap-4 my-3  max-w-md mx-auto">
       <Zoom >
         {data?.map((q) => (
           <Ticket key={q.id_match} data={q} />

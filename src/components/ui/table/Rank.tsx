@@ -18,7 +18,7 @@ export const Rank = () => {
   });
   // console.log(data);
   return (
-    <div >
+    <div className="" >
       <Fade cascade direction="down">
         <ul className="flex flex-col justify-center gap-2">
           {data?.map((user, index) => (

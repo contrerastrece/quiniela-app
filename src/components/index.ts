@@ -15,6 +15,7 @@ export * from './ui/buttons/BtnLogOut';
 export * from './ui/buttons/BtnSave';
 export * from './ui/card/Card';
 export * from './ui/dot/LiveDot';
+export * from './ui/footer/Footer';
 export { default as Header } from './ui/header/Header';
 export * from './ui/links/NavLinks';
 export * from './ui/loader/Loading';

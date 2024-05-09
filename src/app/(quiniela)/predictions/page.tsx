@@ -13,7 +13,7 @@ const PredictionsPage = async () => {
   }
 
   return (
-    <div className="text-white  p-2">
+    <div className="text-white  p-2 ">
       {/* <h2 className="text-xl font-semibold my-3">My Predictions</h2> */}
 
       <AllPredictions />

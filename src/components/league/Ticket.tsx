@@ -20,12 +20,7 @@ interface ticketProps {
 }
 
 export const Ticket = ({ data }: any) => {
-  const { data: result } = useQuery({
-    queryKey: ["result", data.id_match],
-    queryFn: async () => {
-      return await getResultByMatch(data.id_match);
-    },
-  });
+  console.log(data);
 
   return (
     <>
@@ -44,7 +39,7 @@ export const Ticket = ({ data }: any) => {
             />
             <p
               className={
-                result?.score?.winner === "HOME_TEAM"
+                data.result_home > data.result_visit
                   ? "font-semibold"
                   : "font-extralight"
               }
@@ -53,11 +48,13 @@ export const Ticket = ({ data }: any) => {
             </p>
           </div>
           <div className="flex gap-2">
-            <p className="font-thin">{data.score_home}</p>
-            <p>{result?.score?.fullTime?.home}</p>
-            {result?.status === "FINISHED" && (
+            <p className="font-thin text-center w-4 ">
+              {data.score_home}
+            </p>
+            <p className="text-center w-4 ">{data.result_home}</p>
+            {data.status_match === "FINISHED" && (
               <div className=" flex items-center justify-center">
-                {data.score_home == result?.score?.fullTime?.home ? (
+                {data.score_home == data.result_home ? (
                   <IoCheckmarkCircle className="text-green-500" />
                 ) : (
                   <IoCloseOutline className="text-red-400" />
@@ -77,7 +74,7 @@ export const Ticket = ({ data }: any) => {
             />
             <p
               className={
-                result?.score?.winner === "AWAY_TEAM"
+                data.result_home < data.resut_visit
                   ? "font-semibold"
                   : "font-extralight"
               }
@@ -86,11 +83,13 @@ export const Ticket = ({ data }: any) => {
             </p>
           </div>
           <div className=" flex gap-2">
-            <p className="font-thin">{data.score_visit}</p>
-            <p>{result?.score?.fullTime?.away}</p>
-            {result?.status === "FINISHED" && (
+            <p className="font-thin  w-4 text-center">
+              {data.score_visit}
+            </p>
+            <p className=" w-4 text-center">{data.result_visit}</p>
+            {data.status_match === "FINISHED" && (
               <div className=" flex items-center justify-center">
-                {data.score_visit === result?.score?.fullTime?.away ? (
+                {data.score_visit === data.result_visit ? (
                   <IoCheckmarkCircle className="text-green-500 " />
                 ) : (
                   <IoCloseOutline className="text-red-400" />
@@ -100,14 +99,17 @@ export const Ticket = ({ data }: any) => {
           </div>
         </div>
 
-        {result?.status === "FINISHED" && (
+        {data.status_match === "FINISHED" && (
           <div className="absolute  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
             {data.points > 0 ? (
-              <span className="text-teal-400">+ {data.points} {data.points < 2 ? "pto." : "pts."}</span>
+              <span className="text-teal-400">
+                + {data.points} {data.points < 2 ? "pto." : "pts."}
+              </span>
             ) : (
-              <span className="text-red-400">{data.points} {data.points < 2 ? "pto." : "pts."}</span>
+              <span className="text-red-400">
+                {data.points} {data.points < 2 ? "pto." : "pts."}
+              </span>
             )}
-            
           </div>
         )}
       </div>

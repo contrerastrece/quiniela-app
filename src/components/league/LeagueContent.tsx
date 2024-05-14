@@ -9,7 +9,7 @@ import { Zoom } from "react-awesome-reveal";
 export const LeagueContent = ({ id }: { id: number }) => {
   const [state, setState] = useState("All");
   const getMatches = async () => {
-    const response = await fetch(`http://localhost:3000/leagues/api?id=${id}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/leagues/api?id=${id}`);
     const data = await response.json();
     return data.matches;
   };

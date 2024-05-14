@@ -23,7 +23,7 @@ const Matches = ({ data }: { data: Match }) => {
 
   return (
     <div className="flex flex-col gap-2 min-w-[20rem] max-w-lg">
-      <p className="text-xs flex gap-2 font-thin text-center items-center">
+      <p className="text-xs flex gap-2 text-white font-thin text-center items-center">
         {(data.status === "IN_PLAY" || data.status === "PAUSED") && <LiveDot />}
         {getStatusText(data.status)}
         {data.status === "IN_PLAY" || data.status === "PAUSED" ? (

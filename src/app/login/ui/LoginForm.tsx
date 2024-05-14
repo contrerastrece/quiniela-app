@@ -18,18 +18,6 @@ export const LoginForm = () => {
     });
   };
 
-  // const { data, error } = await supabase.auth.getUser();
-  // useEffect(() => {
-  //   const { data: authListener } = supabase.auth.onAuthStateChange(
-  //     (event, session) => {
-  //       // console.log(session)
-  //       if (session) {
-  //         setUser(session?.user);
-  //         router.push("/");
-  //       }
-  //     }
-  //   );
-  // }, []);
 
   return (
     <div className="flex flex-col">

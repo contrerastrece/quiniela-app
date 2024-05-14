@@ -1,4 +1,5 @@
-"use client";
+// "use client";
+import getUserSession from "@/lib/getUserSession";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 import { create } from "zustand";
 interface User {
@@ -14,6 +15,7 @@ interface UserState {
 }
 export const useUserStore = create<UserState>((set) => ({
   user: null,
+
   setUser: (user) => set({ user }),
   getUsers: async () => {
     try {

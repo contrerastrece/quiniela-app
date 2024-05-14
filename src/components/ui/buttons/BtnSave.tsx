@@ -3,7 +3,6 @@ import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 import { useUserStore } from "@/store/user/userStore";
 import { Match } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 
 interface BtnSaveProps {
   data: Match;
@@ -21,8 +20,9 @@ export const BtnSave = ({
   const user = useUserStore((state) => state.user);
   const { insertQuiniela } = useQuinielaStore();
   const { id, homeTeam, awayTeam } = data;
+
   const quiniela = {
-    id_user: user!.id,
+    // id_user: user!.id,
     image_home: homeTeam.crest,
     image_visit: awayTeam.crest,
     name_home: homeTeam.shortName,

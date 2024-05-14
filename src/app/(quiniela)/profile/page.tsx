@@ -13,8 +13,8 @@ export default async function ProfilePage() {
     return redirect("/login");
   }
   return (
-    <section className="max-w-xl bg-slate-800 mx-auto xs:mx-2 my-4 rounded-md">
-      <div className="max-w-4xl mx-auto rounded-md flex justify-center items-center p-4">
+    <section className="flex p-2 items-center justify-center">
+      <div className="max-w-4xl bg-slate-800 rounded-md flex justify-center items-center p-4">
         <div>
           <div className="text-white flex flex-col items-start">
             <Image

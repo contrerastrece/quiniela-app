@@ -12,7 +12,7 @@ export default function LoginPage() {
       </h1>
       <p className=" text-white font-thin mb-5 max-w-lg">
         ¡Es hora de poner a prueba tus habilidades de pronóstico futbolístico!
-        En Quiniela App, tendrás la oportunidad de demostrar tu conocimiento del
+        En Quiniela-Contra, tendrás la oportunidad de demostrar tu conocimiento del
         hermoso juego y competir contra otros aficionados en emocionantes
         quinielas.
       </p>

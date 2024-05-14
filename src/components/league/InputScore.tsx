@@ -4,9 +4,10 @@ interface InputScoreProps {
   value: number;
   onChange: (value: number) => void;
   scoreUser: number;
+  existMatch: boolean;
 }
 
-export const InputScore = ({ value, onChange, scoreUser }: InputScoreProps) => {
+export const InputScore = ({ value, onChange, scoreUser,existMatch }: InputScoreProps) => {
   const [valor, setValor] = useState("");
   const handleInput = (event: any) => {
     // Limitar la entrada solo a dígitos
@@ -46,6 +47,7 @@ export const InputScore = ({ value, onChange, scoreUser }: InputScoreProps) => {
         onChange={handleChange}
         maxLength={1}
         inputMode="numeric"
+        disabled={existMatch}
       />
     </div>
   );

@@ -11,11 +11,10 @@ export default async function HomePage() {
   if (!user) {
     return redirect("/login");
   }
-
   return (
     <div className="text-white">
       <section className="px-2 md:px-4 md:w-[600px] mx-auto">
-        <Status user={user} />
+        <Status/>
       </section>
     </div>
   );

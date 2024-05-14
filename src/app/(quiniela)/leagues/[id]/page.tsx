@@ -1,14 +1,21 @@
+import { LeagueContent } from "@/components";
+import getUserSession from "@/lib/getUserSession";
+import { redirect } from "next/navigation";
 import React from "react";
 
-const CategoryPage = ({ params }: any) => {
+const CategoryPage = async ({ params }: any) => {
+  const {
+    data: { user },
+  } = await getUserSession();
+
+  if (!user) {
+    return redirect("/login");
+  }
   const { id } = params;
 
-  // console.log(id);
   return (
-    <div>
-      {/* <Title title={`Articulos ${labels[id]}`} subtitle="Todos los productos" /> */}
-      {/* <ProductGrid products={categoryFilter} /> */}
-      <p className="text-white">{id}</p>
+    <div className="p-2">
+      <LeagueContent id={id} />
     </div>
   );
 };

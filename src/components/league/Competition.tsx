@@ -23,7 +23,7 @@ const Competition = ({ data }: { data: Match }) => {
         />
         <p className="text-sm text-teal-400 truncate">{data?.competition.name}</p>
       </div>
-      <p className="text-xs md:text-sm">{dateConvert}</p>
+      <p className="text-xs md:text-sm text-white">{dateConvert}</p>
     </div>
   );
 };

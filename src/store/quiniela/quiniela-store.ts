@@ -55,10 +55,11 @@ export const useQuinielaStore = create<State>((set) => ({
   // insertar el score
   insertQuiniela: async (quiniela) => {
     // console.log(quiniela);
+    const dataUser = await getUserSession();
     try {
       const { data, error } = await supabase
         .from("tbl_predictions")
-        .insert(quiniela);
+        .insert({ ...quiniela, id_user: dataUser.id });
       Swal.fire({
         title: "Agregado",
         text: "Tu pronóstico ha sido agregado con exito.",

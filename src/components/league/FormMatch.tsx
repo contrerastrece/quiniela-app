@@ -41,10 +41,10 @@ export const FormMatch = ({ data }: propsMatch) => {
       <p className="text-xs text-teal-400  text-center">{getDate}</p>
       <div className=" gap-3 grid grid-cols-3 place-items-center">
         <Card url={homeTeam.crest!} shortName={homeTeam.shortName} />
-        <div className=" flex gap-3 items-center">
-          <InputScore value={homeScore} onChange={handleHomeScoreChange} scoreUser={objFilter?.score_home}/>
+        <div className=" flex gap-3 items-center text-white">
+          <InputScore value={homeScore} onChange={handleHomeScoreChange} scoreUser={objFilter?.score_home} existMatch={existMatch!}/>
           :
-          <InputScore value={awayScore} onChange={handleAwayScoreChange} scoreUser={objFilter?.score_visit}/>
+          <InputScore value={awayScore} onChange={handleAwayScoreChange} scoreUser={objFilter?.score_visit} existMatch={existMatch!}/>
         </div>
         <Card url={awayTeam.crest!} shortName={awayTeam.shortName} />
       </div>

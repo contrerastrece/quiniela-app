@@ -27,8 +27,8 @@ const AboutPage = () => {
     },
   ];
   return (
-    <>
-      <div className=" shadow-md rounded px-8 pt-4 pb-4 flex flex-col max-w-2xl mx-auto xs:mx-2 bg-slate-800 my-4">
+    <div className="flex items-center justify-center ">
+      <div className=" shadow-md rounded px-8 pt-4 pb-4 flex flex-col max-w-2xl mx-2  bg-slate-800 my-4">
         <div className="mb-4 flex flex-col gap-3">
           <h2 className="text-2xl font-bold mb-2 text-white">
             ¿Cómo funciona? 🤔
@@ -141,7 +141,7 @@ const AboutPage = () => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

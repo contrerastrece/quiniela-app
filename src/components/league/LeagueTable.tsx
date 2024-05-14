@@ -3,8 +3,6 @@ import Competition from "./Competition";
 import { Match } from "@/types";
 import Matches from "./Matches";
 import { FormMatch } from "./FormMatch";
-import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
-import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   data: Match;

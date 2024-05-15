@@ -14,7 +14,7 @@ const CategoryPage = async ({ params }: any) => {
   const { id } = params;
 
   return (
-    <div className="p-2">
+    <div className="p-4  max-w-2xl mx-auto">
       <LeagueContent id={id} />
     </div>
   );

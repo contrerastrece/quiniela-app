@@ -74,7 +74,7 @@ const Status = () => {
       </div>
 
       {/* Show Matches */}
-      <div className="w-full">
+      <div className="w-full border border-white">
         {isLoading ? (
           <Loading />
         ) : (

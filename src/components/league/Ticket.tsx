@@ -74,7 +74,7 @@ export const Ticket = ({ data }: any) => {
             />
             <p
               className={
-                data.result_home < data.resut_visit
+                data.result_home < data.result_visit
                   ? "font-semibold"
                   : "font-extralight"
               }

@@ -7,7 +7,7 @@ import { GiCheckeredFlag } from "react-icons/gi";
 
 export const CardDefault = () => {
   return (
-    <Zoom>
+    <Zoom triggerOnce>
       <Link
         href={`/`}
         className="border border-dashed rounded-md p-2 flex flex-col items-center justify-center bg-slate-900 hover:bg-slate-800/50 transition-all duration-75 gap-2 min-w-28"

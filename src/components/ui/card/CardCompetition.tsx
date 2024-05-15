@@ -6,7 +6,7 @@ import { Zoom } from "react-awesome-reveal";
 
 export const CardCompetition = ({ data }: { data: any }) => {
   return (
-    <Zoom>
+    <Zoom triggerOnce>
       <Link
         href={`leagues/${data.id}`}
         className="border border-dashed rounded-md p-2 flex flex-col items-center justify-center bg-slate-800 hover:bg-slate-800/50 transition-all duration-75 gap-2 min-w-28"

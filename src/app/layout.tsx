@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { TansTackProvider } from "@/components";
 import { ComponentAds } from "@/components/ads/ComponentAds";
+import NProgressBar from "@/context/provider/NProgressBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,12 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} bg-slate-900`}>
         <main className="">
-          <TansTackProvider>{children}</TansTackProvider>
+          <TansTackProvider>
+            <NProgressBar>
+
+            {children}
+            </NProgressBar>
+            </TansTackProvider>
           <ComponentAds />
         </main>
       </body>

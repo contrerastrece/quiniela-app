@@ -13,7 +13,7 @@ export const ComponentAds = () => {
   }, []);
 
   return (
-    <div className="absolute w-full h-full top-0 left-0 right-0 bottom-0">
+    <div className="sticky left-0 right-0 bottom-0 h-10 bg-black cursor-pointer">
       <p className="text-xs text-slate-500">Anuncio</p>
     </div>
   );

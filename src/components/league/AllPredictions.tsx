@@ -17,7 +17,7 @@ export const AllPredictions = () => {
   });
   return (
     <div className="flex flex-col gap-4 my-3  max-w-md mx-auto">
-      <Zoom >
+      <Zoom triggerOnce>
         {data?.map((q) => (
           <Ticket key={q.id_match} data={q} />
         ))}

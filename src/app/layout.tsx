@@ -20,6 +20,7 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <meta name="ppck-ver" content="e53f623e73177d465a4d4d40810480b6" />
+        <meta name="google-adsense-account" content="ca-pub-9948289874025409"></meta>
       </head>
       <body className={`${inter.className} bg-slate-900`}>
         <main className="">

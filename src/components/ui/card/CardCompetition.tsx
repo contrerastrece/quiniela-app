@@ -9,7 +9,7 @@ export const CardCompetition = ({ data }: { data: any }) => {
     <Zoom>
       <Link
         href={`leagues/${data.id}`}
-        className="border border-dashed rounded-md p-2 flex flex-col items-center justify-center bg-slate-800 hover:bg-slate-800/50 transition-all duration-75 gap-2"
+        className="border border-dashed rounded-md p-2 flex flex-col items-center justify-center bg-slate-800 hover:bg-slate-800/50 transition-all duration-75 gap-2 min-w-28"
       >
         <Image
           src={data.emblem}
@@ -18,7 +18,7 @@ export const CardCompetition = ({ data }: { data: any }) => {
           alt={data.name}
           className="bg-white rounded-md p-1 object-contain w-24 h-24 aspect-square"
         />
-        <p className="text-white uppercase text-xs font-semibold">
+        <p className="text-center text-white uppercase text-xs font-semibold truncate w-full">
           {data.name}
         </p>
       </Link>

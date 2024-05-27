@@ -79,7 +79,7 @@ const Status = () => {
           <Loading />
         ) : (
           <>
-            {matchesFilter.length > 0 ? (
+            {matchesFilter && matchesFilter.length > 0 ? (
               <Zoom>
                 {matchesFilter.map((match) => (
                   <LeagueTable data={match} key={match.id} />
@@ -87,7 +87,7 @@ const Status = () => {
               </Zoom>
             ) : (
               <p className="text-center text-gray-400 mt-20 ">
-                No hay datos ...
+                No hay Partidos para hoy 🥹
               </p>
             )}
           </>

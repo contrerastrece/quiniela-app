@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { TansTackProvider } from "@/components";
-import { ComponentAds } from "@/components/ads/ComponentAds";
+// import { ComponentAds } from "@/components/ads/ComponentAds";
 import NProgressBar from "@/context/provider/NProgressBar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,17 +21,22 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <meta name="ppck-ver" content="e53f623e73177d465a4d4d40810480b6" />
-        <meta name="google-adsense-account" content="ca-pub-9948289874025409"></meta>
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-9948289874025409"
+        ></meta>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9948289874025409"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body className={`${inter.className} bg-slate-900`}>
         <main className="">
           <TansTackProvider>
-            <NProgressBar>
-
-            {children}
-            </NProgressBar>
-            </TansTackProvider>
-          <ComponentAds />
+            <NProgressBar>{children}</NProgressBar>
+          </TansTackProvider>
+          {/* <ComponentAds /> */}
         </main>
       </body>
     </html>

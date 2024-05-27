@@ -32,7 +32,7 @@ const Status = () => {
   });
 
   let matchesFilter: Match[] = [];
-  if (!isLoading) {
+  if (!isLoading && matches && matches[day]) {
     switch (state) {
       case "Finished":
         matchesFilter = matches![day].filter((m) => m.status === "FINISHED");
@@ -87,7 +87,7 @@ const Status = () => {
               </Zoom>
             ) : (
               <p className="text-center text-gray-400 mt-20 ">
-                No hay Partidos para hoy 🥹
+                No hay Partidos para esta fecha 🥹
               </p>
             )}
           </>

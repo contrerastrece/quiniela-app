@@ -33,111 +33,71 @@ const AboutPage = () => {
           <h2 className="text-2xl font-bold mb-2 text-white">
             ¿Cómo funciona? 🤔
           </h2>
-          <p className="text-gray-200 ">
-            Acierto del resultado final:{" "}
-            <span className="text-gray-400 text-sm ">
-              Si adivinas quién ganará el partido o si será empate, ganas{" "}
-              <span className="text-teal-400">1 punto</span>.
-            </span>
+          <p className="text-gray-300 text-sm">
+            Por cada partido puedes ganar hasta <strong className="text-teal-400">4 puntos</strong>:
           </p>
-          <p className="text-gray-200">
-            Acierto en los goles de cada equipo:{" "}
-            <span className="text-gray-400 text-sm ">
-              Si adivinas cuántos goles marcará el equipo local y/o el equipo
-              visitante, ganas <span className="text-teal-400">1 punto</span>{" "}
-              por cada equipo.
-            </span>
-          </p>
-          <p className="text-gray-200 text-base">
-            Bonus especial:{" "}
-            <span className="text-sm text-gray-400">
-              Si adivinas el resultado exacto del partido (quién gana y cuántos
-              goles marcan ambos equipos), ¡ganarás{" "}
-              <span className="text-teal-400">1 punto extra</span>!
-            </span>
-          </p>
-          <p className="text-gray-200">
-            Penalización:{" "}
-            <span className="text-sm text-gray-400">
-              Si no adivinas nada, se te resta{" "}
-              <span className="text-red-400">1 punto</span>, pero no te
-              preocupes, ¡es parte del juego!
-            </span>
-          </p>
+          <ul className="space-y-2 text-sm">
+            <li className="flex items-start gap-2">
+              <span className="text-teal-400 font-bold mt-0.5">1.</span>
+              <span className="text-gray-400">
+                <strong className="text-gray-200">Resultado final</strong> — Si aciertas quién gana o si es empate, sumas{" "}
+                <span className="text-teal-400">+1 pt</span>.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-teal-400 font-bold mt-0.5">2.</span>
+              <span className="text-gray-400">
+                <strong className="text-gray-200">Goles de cada equipo</strong> — Por cada equipo cuyo marcador exacto aciertes, sumas{" "}
+                <span className="text-teal-400">+1 pt</span> (local + visitante = hasta +2 pts).
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-teal-400 font-bold mt-0.5">3.</span>
+              <span className="text-gray-400">
+                <strong className="text-gray-200">Bonus exactitud</strong> — Si aciertas todo (resultado + goles de ambos), sumas{" "}
+                <span className="text-teal-400">+1 pt extra</span>.
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-red-400 font-bold mt-0.5">−</span>
+              <span className="text-gray-400">
+                <strong className="text-gray-200">Penalización</strong> — Si no aciertas nada, pierdes{" "}
+                <span className="text-red-400">−1 pt</span>.
+              </span>
+            </li>
+          </ul>
         </div>
         {/* Ejemplo 1 */}
         <div className="mb-4">
-          <h2 className="text-2xl font-bold mb-2 text-white">Ejemplo 1:</h2>
-          <p className="text-gray-400 text-base">
-            Imagina que dices que el equipo local ganará 2-1, pero el partido
-            termina empatado 1-1.
+          <h2 className="text-xl font-bold mb-2 text-white">Ejemplo 1 — Acierto parcial</h2>
+          <p className="text-gray-400 text-sm mb-3">
+            Tu pronóstico: <strong className="text-gray-200">Bayern 2-1 Real Madrid</strong> — Resultado real: <strong className="text-gray-200">Bayern 1-1 Real Madrid</strong>
           </p>
-          <br />
           <TicketFake data={data[0]} />
-          <br />
-          <ul className="list-disc ml-5">
-            <li className="text-gray-400 text-base">
-              Resultado final: Como no acertaste quién ganaría o si sería
-              empate, no ganas puntos aquí.
-            </li>
-            <li className="text-gray-400 text-base">
-              Goles de cada equipo: Aunque no adivinaste exactamente cuántos
-              goles marcaría el equipo local, sí adivinaste cuántos goles
-              marcaría el equipo visitante. Así que ganas{" "}
-              <span className="text-gray-300">1 punto</span> por eso.
-            </li>
-            <li className="text-gray-400 text-base">
-              Bonus: No obtienes ningún punto extra porque no adivinaste el
-              resultado exacto del partido.
-            </li>
+          <ul className="space-y-1 mt-3 text-sm text-gray-400">
+            <li>✅ Resultado final: ❌ No acertaste (local ≠ empate)</li>
+            <li>✅ Goles local: ❌ No acertaste (2 ≠ 1)</li>
+            <li>✅ Goles visitante: ✅ Acertaste (1 = 1 → <span className="text-teal-400">+1 pt</span>)</li>
+            <li>✅ Bonus: ❌ No aplica</li>
           </ul>
-          <br />
-          <p className="text-gray-400 text-base">
-            En resumen, en este caso, ganarías{" "}
-            <span className="text-teal-400">1 punto</span> por haber acertado
-            los goles del equipo visitante. Y como no acertaste el resultado
-            final ni los goles del equipo local, tu puntaje final sería de{" "}
-            <strong className="text-teal-400">1 punto</strong>.
+          <p className="text-gray-300 text-sm mt-2">
+            Total: <strong className="text-teal-400">1 punto</strong>
           </p>
         </div>
-        {/* Ejemplo 2 */}
         <div className="mb-4">
-          <h2 className="text-2xl font-bold mb-2 text-white">Ejemplo 2:</h2>
-          <p className="text-gray-400 text-base">
-            Imagina que predices que el equipo local ganará 3-1, y el partido
-            termina con el equipo local ganando 3-1.
+          <h2 className="text-xl font-bold mb-2 text-white">Ejemplo 2 — Acierto total</h2>
+          <p className="text-gray-400 text-sm mb-3">
+            Tu pronóstico: <strong className="text-gray-200">Bayern 3-1 Real Madrid</strong> — Resultado real: <strong className="text-gray-200">Bayern 3-1 Real Madrid</strong>
           </p>
-          <br />
           <TicketFake data={data[1]} />
-          <br />
-          <ul className="list-disc ml-5">
-            <li className="text-gray-400 text-base">
-              Resultado final: Acertaste que el equipo local ganaría, así que
-              ganas <span className="text-gray-300">1 punto.</span>
-            </li>
-            <li className="text-gray-400 text-base">
-              Goles de cada equipo: Predijiste correctamente que el equipo local
-              marcaría 3 goles y que el equipo visitante marcaría 1 gol. Por lo
-              tanto, ganas 1 punto por cada equipo, sumando{" "}
-              <span className="text-gray-300">2 puntos </span>
-              en total.
-            </li>
-            <li className="text-gray-400 text-base">
-              Bonus: Como acertaste el resultado exacto del partido (quién gana
-              y cuántos goles marcan ambos equipos), ganas{" "}
-              <span className="text-gray-300">1 punto</span> extra.
-            </li>
+          <ul className="space-y-1 mt-3 text-sm text-gray-400">
+            <li>✅ Resultado final: ✅ Acertaste (local = local → <span className="text-teal-400">+1 pt</span>)</li>
+            <li>✅ Goles local: ✅ Acertaste (3 = 3 → <span className="text-teal-400">+1 pt</span>)</li>
+            <li>✅ Goles visitante: ✅ Acertaste (1 = 1 → <span className="text-teal-400">+1 pt</span>)</li>
+            <li>✅ Bonus: ✅ Todo correcto → <span className="text-teal-400">+1 pt extra</span></li>
           </ul>
-          <br />
-          <p className="text-gray-400 text-base">
-            En resumen, en este caso, ganarías{" "}
-            <span className="text-teal-400">1 punto</span> por acertar el
-            resultado final,
-            <span className="text-teal-400"> 2 puntos</span> por acertar los
-            goles de cada equipo, y{" "}
-            <span className="text-teal-400">1 punto</span> extra por acertar el
-            resultado exacto del partido. Por lo tanto, tu puntaje final sería
-            de <strong className="text-teal-400">4 puntos.</strong>
+          <p className="text-gray-300 text-sm mt-2">
+            Total: <strong className="text-teal-400">4 puntos</strong>
           </p>
         </div>
       </div>

@@ -60,9 +60,39 @@ Ejecuta `supabase_migration.sql` en el SQL Editor de Supabase para crear las tab
 - Función `calculate_points_and_update_status()` (trigger al finalizar un partido)
 - RPC `get_user_points()` para el ranking
 
+## 🔐 Google OAuth (Supabase Auth)
+
+La autenticación usa Supabase Auth con Google como proveedor OAuth.
+
+### Configuración en Supabase
+
+1. Ve a **Authentication > Providers** y habilita Google.
+2. Copia los valores de **Client ID** y **Client Secret** desde Google Cloud Console (ver abajo).
+3. En **Authentication > Settings**:
+   - **Site URL**: `https://tudominio.com` (la URL donde esté desplegada la app)
+   - **Additional Redirect URLs**: `https://tudominio.com/auth/callback`
+
+### Configuración en Google Cloud Console
+
+1. Crea un proyecto o ve a [Google Cloud Console > APIs & Services > Credentials](https://console.cloud.google.com/apis/credentials).
+2. Crea una credencial **OAuth 2.0 Client ID** (tipo Aplicación web).
+3. En **Authorized redirect URIs** agrega:
+   ```
+   https://<PROJECT_REF>.supabase.co/auth/v1/callback
+   ```
+   El `<PROJECT_REF>` es el subdominio de tu proyecto Supabase (ej: `cjmgzdzxstgafesrrxln`).
+4. Copia el Client ID y Client Secret a Supabase Auth.
+
+### Flujo de autenticación
+
+```
+Usuario → LoginForm (signInWithOAuth)
+       → Google (autenticación)
+       → Supabase callback (/auth/v1/callback)
+       → Tu app (/auth/callback → intercambia code por session)
+       → Redirige a /competitions
+```
+
 ## ☁️ Despliegue
 
-La app está lista para desplegarse en Vercel. Asegúrate de configurar las mismas variables de entorno en Vercel y actualizar:
-
-1. Supabase Auth > Site URL con la URL de producción
-2. Google Cloud Console > Redirect URIs con el callback de Supabase
+La app está lista para desplegarse en Vercel. Asegúrate de configurar las mismas variables de entorno en Vercel.

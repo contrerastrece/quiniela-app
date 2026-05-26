@@ -3,26 +3,28 @@ import { useUserStore } from "@/store/user/userStore";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React from "react";
-import { Fade } from "react-awesome-reveal";
 import { FaMedal, FaTrophy } from "react-icons/fa";
 import { IoMdMedal } from "react-icons/io";
+import { SkeletonRank } from "../skeleton/SkeletonCard";
 
-export const Rank = ({usuario}:any) => {
+export const Rank = ({ usuario }: any) => {
   const getUsers = useUserStore((state) => state.getUsers);
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       return await getUsers();
     },
   });
   return (
-    <div className="" >
-      <Fade cascade direction="down" triggerOnce={true}>
+    <div>
+      {isLoading ? (
+        Array.from({ length: 10 }).map((_, i) => <SkeletonRank key={i} />)
+      ) : (
         <ul className="flex flex-col justify-center gap-2">
           {data?.map((user, index) => (
             <li
               key={user.id_user}
-              className={`text-white text-xs flex justify-between px-2 items-center ${user.id_user===usuario.id?' bg-slate-700/50 rounded-md':''}`}
+              className={`text-white text-xs flex justify-between px-2 items-center ${user.id_user === usuario.id ? ' bg-slate-700/50 rounded-md' : ''}`}
             >
               <div className="flex gap-2 items-center">
                 {index + 1 === 1 && (
@@ -41,6 +43,7 @@ export const Rank = ({usuario}:any) => {
                   height={25}
                   alt={user.name}
                   className="rounded-full "
+                  loading="lazy"
                 />
                 {user.name}
               </div>
@@ -48,7 +51,7 @@ export const Rank = ({usuario}:any) => {
             </li>
           ))}
         </ul>
-      </Fade>
+      )}
     </div>
   );
 };

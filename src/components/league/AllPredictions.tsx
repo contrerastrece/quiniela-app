@@ -1,27 +1,25 @@
 "use client";
-import React from "react";
 import { Ticket } from "./Ticket";
 import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
 import { useQuery } from "@tanstack/react-query";
-import {  Fade, Zoom } from "react-awesome-reveal";
+import { SkeletonTicket } from "../ui/skeleton/SkeletonCard";
 
 export const AllPredictions = () => {
-  const { getQuiniela } = useQuinielaStore();
-  const { data } = useQuinielaStore();
-  useQuery({
+  const getQuiniela = useQuinielaStore((s) => s.getQuiniela);
+  const { data, isLoading } = useQuery({
     queryKey: ["quiniela"],
-    queryFn: async () => {
-      return await getQuiniela();
-    },
+    queryFn: () => getQuiniela(),
     staleTime: 60 * 1000,
   });
   return (
-    <div className="flex flex-col gap-4 my-3  max-w-md mx-auto">
-      <Zoom triggerOnce>
-        {data?.map((q) => (
+    <div className="flex flex-col gap-4 my-3 max-w-md mx-auto">
+      {isLoading ? (
+        Array.from({ length: 3 }).map((_, i) => <SkeletonTicket key={i} />)
+      ) : (
+        data?.map((q) => (
           <Ticket key={q.id_match} data={q} />
-        ))}
-      </Zoom>
+        ))
+      )}
     </div>
   );
 };

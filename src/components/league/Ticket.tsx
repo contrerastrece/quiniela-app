@@ -1,9 +1,5 @@
-"use client";
 import moment from "moment";
 import Image from "next/image";
-import React from "react";
-import { getResultByMatch } from "@/api";
-import { useQuery } from "@tanstack/react-query";
 import { IoCloseOutline } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
 interface ticketProps {
@@ -36,6 +32,7 @@ export const Ticket = ({ data }: any) => {
               height={20}
               alt=""
               className="aspect-square object-contain h-5 w-auto "
+              loading="lazy"
             />
             <p
               className={
@@ -71,6 +68,7 @@ export const Ticket = ({ data }: any) => {
               height={16}
               alt=""
               className="aspect-square  object-contain w-auto h-5 "
+              loading="lazy"
             />
             <p
               className={

@@ -1,4 +1,4 @@
-import { LeagueContent } from "@/components";
+import { LeagueContent } from "@/components/league/LeagueContent";
 import getUserSession from "@/lib/getUserSession";
 import { redirect } from "next/navigation";
 import React from "react";

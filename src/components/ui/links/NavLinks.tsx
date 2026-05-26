@@ -7,19 +7,19 @@ export const NavLinks = () => {
   const path = usePathname();
   const links = [
     {
-      name: "Profile",
+      name: "Perfil",
       pathName: "/profile",
     },
     {
-      name: "My Picks",
+      name: "Mis Picks",
       pathName: "/predictions",
     },
     {
-      name: "Top",
+      name: "Ranking",
       pathName: "/rank",
     },
     {
-      name: "About",
+      name: "Cómo funciona",
       pathName: "/about",
     },
   ];

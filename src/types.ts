@@ -193,16 +193,3 @@ export interface ResultSet {
   last: Date;
   played: number;
 }
-export interface ItemResult{
-  
-    created_at: string,
-    id_user: string,
-    id_match: number,
-    score_home: number,
-    score_visit: number,
-    name_home: string,
-    name_visit: string,
-    image_home: string,
-    image_visit: string
-  
-}

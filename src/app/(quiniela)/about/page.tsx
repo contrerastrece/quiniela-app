@@ -1,4 +1,4 @@
-import { TicketFake } from "@/components";
+import { TicketFake } from "@/components/league/TicketFake";
 import React from "react";
 
 const AboutPage = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { ComponentLottie, Rank } from "@/components";
+import { Rank } from "@/components/ui/table/Rank";
 import getUserSession from "@/lib/getUserSession";
 import { redirect } from "next/navigation";
 const RankPage = async () => {

@@ -1,7 +1,7 @@
-import { BtnLogOut } from "@/components";
 import getUserSession from "@/lib/getUserSession";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { BtnLogOut } from "@/components/ui/buttons/BtnLogOut";
 
 export default async function ProfilePage() {
   const {

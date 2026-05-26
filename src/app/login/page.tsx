@@ -1,6 +1,8 @@
 import { titleFont } from "@/config/fonts";
 import { LoginForm } from "./ui/LoginForm";
-import { TeamLottie } from "@/components";
+import dynamic from "next/dynamic";
+
+const TeamLottie = dynamic(() => import("@/components/league/TeamLottie"), { ssr: false });
 
 export default function LoginPage() {
   return (

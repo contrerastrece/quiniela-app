@@ -21,6 +21,7 @@ export const TicketFake = ({ data }: any) => {
             width={25}
             height={25}
             alt={data.name_home}
+            loading="lazy"
           />
           <p className="text-xs text-white font-thin">{data.name_home}</p>
         </div>
@@ -41,6 +42,7 @@ export const TicketFake = ({ data }: any) => {
             width={25}
             height={25}
             alt={data.name_visit}
+            loading="lazy"
           />
           <p className="text-xs text-white font-thin">{data.name_visit}</p>
         </div>

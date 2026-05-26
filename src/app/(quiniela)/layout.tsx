@@ -1,4 +1,5 @@
-import { Footer, Header } from "@/components";
+import { Footer } from "@/components/ui/footer/Footer";
+import Header from "@/components/ui/header/Header";
 
 export default function ShopLayout({
   children,

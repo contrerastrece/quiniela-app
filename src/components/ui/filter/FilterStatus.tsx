@@ -1,38 +1,24 @@
 'use client'
-import React, { useState } from "react";
 
+interface FilterStatusProps {
+  status: string;
+  setState: (status: string) => void;
+}
 
-export const FilterStatus = ({setState}:{setState:any}) => {
-  const [status, setStatus] = useState('All')
+export const FilterStatus = ({ status, setState }: FilterStatusProps) => {
   const statusList = [
-    {
-      name: "All",
-      state:''
-    },
-    {
-      name: "Finished",
-      state:'FINISHED'
-    },
-    {
-      name: "Live",
-      state:'IN_LIVE'
-    },
-    {
-      name: "Upcoming",
-      state:'TIMED'
-    },
+    { name: "Todos", state: '' },
+    { name: "Finalizados", state: 'FINISHED' },
+    { name: "En Vivo", state: 'IN_LIVE' },
+    { name: "Próximos", state: 'TIMED' },
   ];
-  const handleClick=(s:string)=>{
-    setStatus(s)
-    setState(s)
-  }
 
   return (
     <div className="flex gap-2 my-2">
       {statusList.map((s) => (
         <button
           key={s.name}
-          onClick={()=>handleClick(s.name)}
+          onClick={() => setState(s.name)}
           className={`px-2 py-1 text-white rounded-md transition-colors ${
             s.name === status
               ? "bg-teal-400 font-semibold hover:bg-teal-500"

@@ -1,4 +1,5 @@
-import { CardCompetition, CardDefault } from "@/components";
+import { CardCompetition } from "@/components/ui/card/CardCompetition";
+import { CardDefault } from "@/components/league/CardDefault";
 import React from "react";
 
 const HomePage = async () => {

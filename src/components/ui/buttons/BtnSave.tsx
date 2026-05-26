@@ -1,6 +1,5 @@
 "use client";
 import { useQuinielaStore } from "@/store/quiniela/quiniela-store";
-import { useUserStore } from "@/store/user/userStore";
 import { Match } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -17,7 +16,6 @@ export const BtnSave = ({
   awayScore,
   existMatch,
 }: BtnSaveProps) => {
-  const user = useUserStore((state) => state.user);
   const { insertQuiniela } = useQuinielaStore();
   const { id, homeTeam, awayTeam } = data;
 
@@ -35,29 +33,21 @@ export const BtnSave = ({
   const queryClient = useQueryClient();
   // console.log(objFilter?.id_match,objFilter?.score_home)
   const mutation = useMutation({
-    mutationFn: async () => {
-      await insertQuiniela(quiniela);
-    },
+    mutationFn: () => insertQuiniela(quiniela),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["predictionsUser"] });
+      queryClient.invalidateQueries({ queryKey: ["quiniela"] });
     },
   });
-  const handleSave = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-
-    mutation.mutate();
-  };
   return (
     <button
       className={`bg-teal-600 text-white transition-colors duration-75 rounded-md py-2 mt-3  ${
         existMatch ? "opacity-50 cursor-not-allowed" : "hover:bg-teal-500"
       }`}
-      onClick={(e) => handleSave(e)}
+      onClick={(e) => { e.preventDefault(); mutation.mutate(); }}
       disabled={existMatch}
     >
-      {existMatch ? "Saved" : "Save"}
+      {existMatch ? "Guardado" : "Guardar"}
     </button>
   );
 };

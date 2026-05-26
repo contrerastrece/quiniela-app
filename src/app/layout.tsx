@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { TansTackProvider } from "@/components";
-// import { ComponentAds } from "@/components/ads/ComponentAds";
+import TansTackProvider from "@/components/provider/TansTackProvider";
 import NProgressBar from "@/context/provider/NProgressBar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -36,7 +35,6 @@ export default function RootLayout({
           <TansTackProvider>
             <NProgressBar>{children}</NProgressBar>
           </TansTackProvider>
-          {/* <ComponentAds /> */}
         </main>
       </body>
     </html>

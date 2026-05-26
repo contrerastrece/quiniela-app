@@ -1,8 +1,7 @@
-// 'use client'
-import getUserSession from "@/lib/getUserSession";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
-import Swal from "sweetalert2";
+import { swal } from "@/lib/swal";
 import { create } from "zustand";
+
 interface QuinielaItem {
   score_home: number;
   score_visit: number;
@@ -30,21 +29,19 @@ interface State {
     result_visit: number;
   }) => Promise<any[] | null | undefined>;
 }
+
 const supabase = getSupabaseBrowserClient();
 
 export const useQuinielaStore = create<State>((set) => ({
-  // obtener los datos
   data: null,
   getQuiniela: async () => {
-    const {
-      data: { user },
-    } = await getUserSession();
-    // console.log(user);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
     try {
       const { data: quiniela } = await supabase
         .from("tbl_predictions")
         .select()
-        .eq("id_user", user!.id)
+        .eq("id_user", user.id)
         .order("created_at", { ascending: false });
       set({ data: quiniela ?? [] });
       return quiniela;
@@ -52,25 +49,24 @@ export const useQuinielaStore = create<State>((set) => ({
       console.log(error!);
     }
   },
-  // insertar el score
   insertQuiniela: async (quiniela) => {
-    // console.log(quiniela);
-    const dataUser = await getUserSession();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
     try {
       const { data, error } = await supabase
         .from("tbl_predictions")
-        .insert({ ...quiniela, id_user: dataUser!.data!.user!.id });
-      Swal.fire({
+        .insert({ ...quiniela, id_user: user.id });
+      swal.fire({
         title: "Agregado",
-        text: "Tu pronóstico ha sido agregado con exito.",
+        text: "Tu pronóstico ha sido agregado con éxito.",
         icon: "success",
         showConfirmButton: false,
         timer: 2000,
       });
       if (error) {
-        Swal.fire({
+        swal.fire({
           title: "Error",
-          text: `Ha ocurrido un error .${error.message}`,
+          text: `Ha ocurrido un error: ${error.message}`,
           icon: "error",
           showConfirmButton: false,
           timer: 2000,
@@ -85,10 +81,8 @@ export const useQuinielaStore = create<State>((set) => ({
     }
   },
   updateQuiniela: async (p) => {
-    const {
-      data: { user },
-    } = await getUserSession();
-
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
     try {
       const { data } = await supabase
         .from("tbl_predictions")
@@ -97,7 +91,7 @@ export const useQuinielaStore = create<State>((set) => ({
           result_home: p.result_home,
           result_visit: p.result_visit,
         })
-        .eq("id_user", user!.id)
+        .eq("id_user", user.id)
         .eq("id_match", p.id_match);
       return data;
     } catch (error) {

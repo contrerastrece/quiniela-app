@@ -20,6 +20,7 @@ const Competition = ({ data }: { data: Match }) => {
           width={25}
           height={25}
           className="aspect-auto  bg-white rounded-md p-[2px]"
+          loading="lazy"
         />
         <p className="text-sm text-teal-400 truncate">{data?.competition.name}</p>
       </div>

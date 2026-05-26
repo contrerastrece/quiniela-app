@@ -1,4 +1,4 @@
-import { AllPredictions } from "@/components";
+import { AllPredictions } from "@/components/league/AllPredictions";
 
 import getUserSession from "@/lib/getUserSession";
 import { redirect } from "next/navigation";

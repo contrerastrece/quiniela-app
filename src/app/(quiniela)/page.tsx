@@ -1,4 +1,4 @@
-import { Status } from "@/components";
+import Status from "@/components/league/Status";
 import getUserSession from "@/lib/getUserSession";
 import { redirect } from "next/navigation";
 

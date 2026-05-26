@@ -8,15 +8,13 @@ export default function NProgressBar({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <ProgressBar height="2px"
+    <>
+      <ProgressBar height="3px"
         color="#2DD4BF"
-        options={{ showSpinner: false }}
+        options={{ showSpinner: true }}
         shallowRouting
-        
-        />
-
+      />
       {children}
-    </div>
+    </>
   );
 }

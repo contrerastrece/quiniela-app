@@ -1,7 +1,5 @@
 import Link from "next/link";
 import getUserSession from "@/lib/getUserSession";
-import { BtnLogOut } from "../buttons/BtnLogOut";
-import { usePathname, useRouter } from "next/navigation";
 import { NavLinks } from "../links/NavLinks";
 
 const Header = async (): Promise<JSX.Element> => {
@@ -19,8 +17,6 @@ const Header = async (): Promise<JSX.Element> => {
         </div>
         <div className="flex items-center space-x-4">
           <NavLinks />
-
-          {/* {user?.user_metadata && <BtnLogOut />} */}
         </div>
       </nav>
     </header>

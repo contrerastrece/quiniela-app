@@ -2,46 +2,35 @@
 
 import { useState } from "react";
 import LeagueTable from "./LeagueTable";
-import "moment/locale/es";
 import { getMatches, getSevenDays } from "@/api";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
-import { Loading } from "../ui/loader/Loading";
-import { Bounce, Fade, Zoom } from "react-awesome-reveal";
 import { FilterStatus } from "../ui/filter/FilterStatus";
 import { Match } from "@/types";
+import { SkeletonCard } from "../ui/skeleton/SkeletonCard";
 
 const Status = () => {
   const hoy = moment().format("YYYY-MM-DD");
   const [day, setDay] = useState(hoy);
-  const [state, setState] = useState("All");
+  const [state, setState] = useState("Todos");
   const days = getSevenDays();
-  const handleClick = async (d: string) => {
-    setDay(d);
-  };
-  const {
-    isLoading,
-    data: matches,
-    error,
-  } = useQuery({
+  const handleClick = (d: string) => setDay(d);
+  const { isLoading, data: matches } = useQuery({
     queryKey: ["dataMatches", day],
-    queryFn: async () => {
-      return await getMatches(day);
-    },
-    staleTime: 30 * 1000, //30 seconds para que pase a Stale ( )
+    queryFn: () => getMatches(day),
+    staleTime: 60 * 1000,
   });
 
   let matchesFilter: Match[] = [];
   if (!isLoading && matches && matches[day]) {
     switch (state) {
-      case "Finished":
+      case "Finalizados":
         matchesFilter = matches![day].filter((m) => m.status === "FINISHED");
-
         break;
-      case "Live":
+      case "En Vivo":
         matchesFilter = matches![day].filter((m) => m.status === "IN_PLAY");
         break;
-      case "Upcoming":
+      case "Próximos":
         matchesFilter = matches![day].filter((m) => m.status === "TIMED");
         break;
       default:
@@ -52,7 +41,7 @@ const Status = () => {
 
   return (
     <div>
-      <FilterStatus setState={setState} />
+      <FilterStatus status={state} setState={setState} />
       {/* Select Day */}
       <div className="flex gap-3 my-2 md:mb-4 overflow-x-auto py-2">
         {days.map((d) => (
@@ -76,18 +65,16 @@ const Status = () => {
       {/* Show Matches */}
       <div className="w-full">
         {isLoading ? (
-          <Loading />
+          Array.from({ length: 5 }).map((_, i) => <SkeletonCard key={i} />)
         ) : (
           <>
             {matchesFilter && matchesFilter.length > 0 ? (
-              <Zoom>
-                {matchesFilter.map((match) => (
-                  <LeagueTable data={match} key={match.id} />
-                ))}
-              </Zoom>
+              matchesFilter.map((match) => (
+                <LeagueTable data={match} key={match.id} />
+              ))
             ) : (
               <p className="text-center text-gray-400 mt-20 ">
-                No hay Partidos para esta fecha 🥹
+                No hay partidos programados para esta fecha
               </p>
             )}
           </>

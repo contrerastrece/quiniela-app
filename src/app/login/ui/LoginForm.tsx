@@ -1,12 +1,8 @@
 "use client";
 import { FcGoogle } from "react-icons/fc";
 import useSupabaseClient from "@/lib/supabase/client";
-import { useUserStore } from "@/store/user/userStore";
-import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
-  const router = useRouter();
-  const setUser = useUserStore((state) => state.setUser);
   const supabase = useSupabaseClient();
 
   const loginWithGoogle = async () => {

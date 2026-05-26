@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ⚽ Quiniela-Contra
 
-## Getting Started
+Aplicación de predicciones deportivas (quiniela) donde los usuarios compiten pronosticando resultados de partidos de fútbol de las principales ligas europeas.
 
-First, run the development server:
+## 🚀 Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Autenticación:** Supabase Auth (Google OAuth)
+- **Base de datos:** Supabase PostgreSQL (RLS habilitado)
+- **Estado global:** Zustand
+- **Server state:** TanStack React Query
+- **Estilos:** Tailwind CSS
+- **Alertas:** SweetAlert2
+- **API externa:** [football-data.org](https://www.football-data.org/)
+
+## ✨ Funcionalidades
+
+- **Login con Google** — Autenticación mediante Supabase + OAuth de Google.
+- **Ligas disponibles** — Liga MX, Premier League, La Liga, Bundesliga, Serie A, Ligue 1.
+- **Predicciones por fecha** — Selecciona el marcador de cada partido y guarda tus picks.
+- **Mis Picks** — Revisa las predicciones que ya guardaste para cada jornada.
+- **Sistema de puntuación:**
+  - 1 pt por acertar resultado final (local gana, visitante gana o empate)
+  - 1 pt por acertar goles del equipo local
+  - 1 pt por acertar goles del equipo visitante
+  - 1 pt extra por resultado exacto
+  - -1 pt por no acertar nada
+- **Ranking** — Tabla de posiciones con los puntajes de todos los participantes.
+- **Perfil** — Información del usuario y cierre de sesión.
+
+## 🛠️ Empezar
+
+```bash
+git clone <repo-url>
+cd quiniela-contra
+npm install
+```
+
+### Variables de entorno
+
+Copia `.env.template` a `.env.local` y completa los valores:
+
+| Variable | Descripción |
+|---|---|
+| `API_TOKEN` | Token de football-data.org |
+| `NEXT_PUBLIC_API_URL` | URL base de la app (http://localhost:3000 en dev) |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL de tu proyecto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key de Supabase |
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗄️ Base de datos
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Ejecuta `supabase_migration.sql` en el SQL Editor de Supabase para crear las tablas y funciones necesarias:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- `tbl_users`, `tbl_matches`, `tbl_predictions`, `tbl_quiniela`, `tbl_rank`, `tbl_results`
+- Función `insert_user()` (trigger al registrarse)
+- Función `calculate_points_and_update_status()` (trigger al finalizar un partido)
+- RPC `get_user_points()` para el ranking
 
-## Learn More
+## ☁️ Despliegue
 
-To learn more about Next.js, take a look at the following resources:
+La app está lista para desplegarse en Vercel. Asegúrate de configurar las mismas variables de entorno en Vercel y actualizar:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Supabase Auth > Site URL con la URL de producción
+2. Google Cloud Console > Redirect URIs con el callback de Supabase

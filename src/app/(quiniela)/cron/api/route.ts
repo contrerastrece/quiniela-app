@@ -1,29 +1,42 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
-  const res = await fetch(`https://api.football-data.org/v4/matches`, {
-    next: { revalidate: 30 },
-    headers: {
-      "Content-Type": "application/json",
-      "X-Auth-Token": process.env.API_TOKEN!,
-    },
-  });
-  const { matches } = await res.json();
-
   const supabase = await createSupabaseServerClient();
-  const { data } = await supabase
+
+  const { data: predictions } = await supabase
     .from("tbl_predictions")
     .select()
     .eq("status_match", "TIMED");
 
-  const filteredMatches = matches.filter(
+  if (!predictions?.length) {
+    return Response.json([]);
+  }
+
+  const today = new Date();
+  const dateTo = today.toISOString().split("T")[0];
+  const past = new Date(today);
+  past.setDate(past.getDate() - 10);
+  const dateFrom = past.toISOString().split("T")[0];
+
+  const res = await fetch(
+    `https://api.football-data.org/v4/matches?dateFrom=${dateFrom}&dateTo=${dateTo}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Auth-Token": process.env.API_TOKEN!,
+      },
+    }
+  );
+  const { matches } = await res.json();
+
+  const finished = matches.filter(
     (match: any) =>
       match.status === "FINISHED" &&
-      data?.some((prediction: any) => prediction.id_match === match.id)
+      predictions.some((p: any) => p.id_match === match.id)
   );
 
-  const updates = filteredMatches.map(async (match: any) => {
-    const { error: errorUpdate } = await supabase
+  const updates = finished.map(async (match: any) => {
+    const { error } = await supabase
       .from("tbl_predictions")
       .update({
         status_match: match.status,
@@ -32,12 +45,12 @@ export async function GET(request: Request) {
       })
       .eq("id_match", match.id);
 
-    if (errorUpdate) {
-      console.error("Error al actualizar: ", errorUpdate);
+    if (error) {
+      console.error("Error al actualizar: ", error);
     }
   });
 
   await Promise.all(updates);
 
-  return Response.json(filteredMatches);
+  return Response.json(finished);
 }

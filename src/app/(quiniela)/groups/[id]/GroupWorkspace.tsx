@@ -19,6 +19,8 @@ import {
   HiOutlineXMark,
   HiOutlineCheckBadge,
   HiOutlineNoSymbol,
+  HiOutlineEye,
+  HiOutlineEyeSlash,
 } from "react-icons/hi2";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -31,6 +33,7 @@ interface GroupData {
   competition_id: number | null;
   competition_name: string | null;
   created_at: string;
+  password?: string | null;
 }
 
 interface MemberData {
@@ -71,6 +74,7 @@ export default function GroupWorkspace({
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("partidos");
   const [copied, setCopied] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [state, setState] = useState("Todos");
   const [day, setDay] = useState(moment().format("YYYY-MM-DD"));
   const days = getSevenDays();
@@ -109,9 +113,10 @@ export default function GroupWorkspace({
     } catch {}
   };
 
-  const baseUrl =
+  const baseUrl = (
     process.env.NEXT_PUBLIC_API_URL ||
-    (typeof window !== "undefined" ? window.location.origin : "");
+    (typeof window !== "undefined" ? window.location.origin : "")
+  ).replace(/\/+$/, "");
   const { data: pendingRequests, refetch: refetchRequests } = useQuery({
     queryKey: ["join-requests", group.id],
     queryFn: () =>
@@ -204,6 +209,11 @@ export default function GroupWorkspace({
               {t.key === "miembros" && (
                 <span className="text-[10px] text-slate-500 ml-0.5">
                   {members.length}
+                </span>
+              )}
+              {t.key === "info" && isAdmin && pendingRequests && pendingRequests.length > 0 && (
+                <span className="text-[10px] text-yellow-400 ml-0.5">
+                  ({pendingRequests.length})
                 </span>
               )}
             </button>
@@ -401,6 +411,43 @@ export default function GroupWorkspace({
               {inviteLink}
             </p>
           </div>
+
+          {isAdmin && (
+            <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 space-y-2">
+              <p className="text-sm text-slate-400 font-medium">
+                {group.password ? "Contraseña del grupo" : "Grupo público"}
+              </p>
+              {group.password ? (
+                <div className="flex items-center gap-2 bg-slate-900 rounded-lg px-3 py-2.5">
+                  <span className="text-sm font-mono tracking-wider text-teal-300 flex-1 select-all">
+                    {showPassword ? group.password : "••••••••"}
+                  </span>
+                  <button
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="text-slate-400 hover:text-white p-1 rounded transition-colors"
+                    title={showPassword ? "Ocultar" : "Mostrar"}
+                  >
+                    {showPassword ? <HiOutlineEyeSlash className="text-base" /> : <HiOutlineEye className="text-base" />}
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(group.password!);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    }}
+                    className="text-slate-400 hover:text-white p-1 rounded transition-colors"
+                    title="Copiar"
+                  >
+                    {copied ? <HiOutlineCheck className="text-base text-green-400" /> : <HiOutlineClipboard className="text-base" />}
+                  </button>
+                </div>
+              ) : (
+                <p className="text-xs text-slate-500">
+                  Cualquier persona con el link puede unirse sin contraseña.
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 text-sm text-slate-400 space-y-2">
             <div className="flex justify-between">

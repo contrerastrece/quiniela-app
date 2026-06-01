@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { invite_code } = await request.json();
+  const { invite_code, password } = await request.json();
 
   if (!invite_code?.trim()) {
     return Response.json({ error: "Invite code is required" }, { status: 400 });
@@ -21,6 +21,10 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid invite code" }, { status: 404 });
   }
 
+  if (group.password && password !== group.password) {
+    return Response.json({ error: "Contraseña incorrecta" }, { status: 403 });
+  }
+
   const { data: existing } = await supabase
     .from("tbl_group_members")
     .select()
@@ -28,7 +32,8 @@ export async function POST(request: Request) {
     .eq("user_id", user.id);
 
   if (existing?.length) {
-    return Response.json(group);
+    const { password: _, ...safeGroup } = group;
+    return Response.json(safeGroup);
   }
 
   await supabase.from("tbl_group_members").insert({
@@ -37,5 +42,6 @@ export async function POST(request: Request) {
     role: "member",
   });
 
-  return Response.json(group, { status: 201 });
+  const { password: _, ...safeGroup } = group;
+  return Response.json(safeGroup, { status: 201 });
 }

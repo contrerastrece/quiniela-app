@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
-import { HiOutlineUserGroup, HiOutlineCheck, HiOutlineClock } from "react-icons/hi2";
+import { HiOutlineUserGroup, HiOutlineCheck, HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 
 interface GroupData {
   id: string;
@@ -18,21 +18,22 @@ export default function InviteClient({
   group,
   memberCount,
   alreadyMember,
-  pendingRequest,
+  hasPassword,
   isAuthenticated,
 }: {
   group: GroupData;
   memberCount: number;
   alreadyMember: boolean;
-  pendingRequest: boolean;
+  hasPassword: boolean;
   isAuthenticated: boolean;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [sent, setSent] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleRequestJoin = async () => {
+  const handleJoin = async () => {
     if (!isAuthenticated) {
       const supabase = getSupabaseBrowserClient();
       await supabase.auth.signInWithOAuth({
@@ -45,21 +46,24 @@ export default function InviteClient({
     setLoading(true);
     setError("");
 
-    const res = await fetch("/groups/api/join-request", {
+    const body: Record<string, string> = { invite_code: group.invite_code };
+    if (hasPassword) body.password = password;
+
+    const res = await fetch("/groups/api/join", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ group_id: group.id }),
+      body: JSON.stringify(body),
     });
 
     if (!res.ok) {
       const { error: msg } = await res.json();
-      setError(msg || "Error al solicitar unirse");
+      setError(msg || "Error al unirse al grupo");
       setLoading(false);
       return;
     }
 
-    setSent(true);
-    setLoading(false);
+    const data = await res.json();
+    router.push(`/groups/${data.id}`);
   };
 
   return (
@@ -95,30 +99,46 @@ export default function InviteClient({
             Ir al grupo
           </Link>
         </div>
-      ) : pendingRequest || sent ? (
-        <div className="space-y-3">
-          <div className="flex items-center justify-center gap-2 text-yellow-400">
-            <HiOutlineClock className="text-lg" />
-            <span>Solicitud enviada — esperando aprobación del admin</span>
-          </div>
-        </div>
       ) : (
         <>
+          {hasPassword && (
+            <div className="mb-4">
+              <div className="relative max-w-xs mx-auto">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-2.5 pr-10 text-white focus:outline-none focus:border-teal-500 text-center"
+                  placeholder="Contraseña del grupo"
+                  maxLength={30}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                >
+                  {showPassword ? <HiOutlineEyeSlash className="text-lg" /> : <HiOutlineEye className="text-lg" />}
+                </button>
+              </div>
+            </div>
+          )}
+
           {error && (
             <p className="text-red-400 text-sm bg-red-900/30 rounded-lg px-3 py-2 mb-4">
               {error}
             </p>
           )}
+
           <button
-            onClick={handleRequestJoin}
+            onClick={handleJoin}
             disabled={loading}
             className="bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:cursor-not-allowed px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             {loading
-              ? "Enviando..."
+              ? "Uniéndose..."
               : isAuthenticated
-              ? "Solicitar unirse"
-              : "Iniciar sesión para solicitar"}
+              ? "Unirse al grupo"
+              : "Iniciar sesión para unirse"}
           </button>
         </>
       )}

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { HiOutlineEye, HiOutlineEyeSlash } from "react-icons/hi2";
 
 interface CompetitionOption {
   id: number;
@@ -16,6 +17,8 @@ export default function NewGroupPage() {
   const [competitionId, setCompetitionId] = useState<number | null>(null);
   const [competitionName, setCompetitionName] = useState<string | null>(null);
   const [competitions, setCompetitions] = useState<CompetitionOption[]>([]);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -48,6 +51,7 @@ export default function NewGroupPage() {
           description: description.trim() || null,
           competition_id: competitionId,
           competition_name: competitionName,
+          password: password.trim() || null,
         }),
       });
 
@@ -137,6 +141,32 @@ export default function NewGroupPage() {
           <p className="text-xs text-slate-500 mt-1">
             Si eliges una competición, el ranking del grupo solo contará
             predicciones de esa competición.
+          </p>
+        </div>
+
+        <div>
+          <label className="block text-sm text-slate-300 mb-1">
+            Contraseña (opcional)
+          </label>
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 pr-10 text-white focus:outline-none focus:border-teal-500"
+              placeholder="Si pones clave, el grupo será privado"
+              maxLength={30}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+            >
+              {showPassword ? <HiOutlineEyeSlash className="text-lg" /> : <HiOutlineEye className="text-lg" />}
+            </button>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            Si estableces una contraseña, solo quienes la tengan podrán unirse al grupo.
           </p>
         </div>
 

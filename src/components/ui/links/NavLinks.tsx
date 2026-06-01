@@ -7,6 +7,7 @@ import {
   HiOutlineUserCircle,
   HiOutlineQuestionMarkCircle,
   HiOutlineUserGroup,
+  HiOutlineInboxArrowDown,
   HiOutlineArrowRightOnRectangle,
   HiBars3,
   HiXMark,
@@ -24,6 +25,7 @@ export const NavLinks = () => {
 
   const links = [
     { name: "Grupos", pathName: "/groups", icon: HiOutlineUserGroup },
+    { name: "Solicitudes", pathName: "/groups/requests", icon: HiOutlineInboxArrowDown },
     { name: "Perfil", pathName: "/profile", icon: HiOutlineUserCircle },
     { name: "Cómo funciona", pathName: "/about", icon: HiOutlineQuestionMarkCircle },
   ];

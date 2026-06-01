@@ -20,6 +20,8 @@ export default async function GroupsPage() {
 
   let groups: any[] = [];
   const membershipRoles: Record<string, "admin" | "member"> = {};
+  const pendingCounts: Record<string, number> = {};
+
   if (memberships?.length) {
     const groupIds = memberships.map((m) => m.group_id);
     memberships.forEach((m) => { membershipRoles[m.group_id] = m.role; });
@@ -29,6 +31,22 @@ export default async function GroupsPage() {
       .in("id", groupIds)
       .order("created_at", { ascending: false });
     groups = data ?? [];
+
+    const adminGroupIds = memberships
+      .filter((m) => m.role === "admin")
+      .map((m) => m.group_id);
+
+    if (adminGroupIds.length > 0) {
+      const { data: pendingReqs } = await supabase
+        .from("tbl_group_join_requests")
+        .select("group_id")
+        .in("group_id", adminGroupIds)
+        .eq("status", "pending");
+
+      for (const req of pendingReqs ?? []) {
+        pendingCounts[req.group_id] = (pendingCounts[req.group_id] || 0) + 1;
+      }
+    }
   }
 
   return (
@@ -95,6 +113,7 @@ export default async function GroupsPage() {
                 key={group.id}
                 group={group}
                 isAdmin={membershipRoles[group.id] === "admin"}
+                pendingCount={pendingCounts[group.id] || 0}
               />
             ))}
           </div>

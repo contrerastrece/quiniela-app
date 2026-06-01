@@ -13,7 +13,7 @@ Aplicación de predicciones deportivas donde los usuarios compiten en **grupos**
 
 ## Cómo funciona
 
-1. **Crea o únete a un grupo** — Cada grupo tiene un código de invitación único.
+1. **Crea o únete a un grupo** — Público (sin contraseña) o privado (con contraseña).
 2. **Pronostica** — Ingresa el marcador de cada partido dentro de tu grupo.
 3. **Compite** — Gana puntos y sube en el ranking del grupo.
 
@@ -31,7 +31,9 @@ Máximo por partido: **4 puntos**.
 
 ## Funcionalidades
 
-- **Grupos** — Crea grupos con una competición específica o abierta a todas. Invita con código o link.
+- **Grupos públicos** — Cualquier persona con el link de invitación puede unirse sin restricción.
+- **Grupos privados** — Al crear el grupo se asigna una contraseña; solo quienes la tengan pueden unirse.
+- **Bandeja de solicitudes** — Los administradores pueden ver las solicitudes pendientes de todos sus grupos en `/groups/requests`.
 - **Predicciones** — Selecciona el marcador de cada partido desde el workspace del grupo.
 - **Ranking por grupo** — Cada grupo tiene su propio ranking independiente.
 - **Perfil** — Información del usuario y lista de grupos a los que pertenece.
@@ -63,17 +65,28 @@ npm run lint     # ESLint
 
 ## Base de datos
 
-Ejecuta los archivos SQL en orden en el SQL Editor de Supabase:
+La app usa **Supabase** como base de datos (PostgreSQL). No necesitas instalar nada local.
 
-1. `supabase_migration.sql` — Tablas y funciones base
-2. `supabase_migration_v2.sql` — Grupos, miembros, ranking por grupo
+1. Crea un proyecto en [supabase.com](https://supabase.com).
+2. Ve a **SQL Editor** en el dashboard de Supabase.
+3. Copia y pega cada archivo SQL en orden y haz clic en **Run**:
+
+   | Orden | Archivo | Contenido |
+   |---|---|---|
+   | 1 | `supabase_migration.sql` | Tablas base (`tbl_users`, `tbl_predictions`) y trigger de puntuación |
+   | 2 | `supabase_migration_v2.sql` | Grupos, miembros, ranking por grupo |
+   | 3 | `supabase_migration_v3.sql` | Solicitudes de unión a grupos |
+   | 4 | `supabase_migration_v4.sql` | Columna `password` para grupos privados |
+
+4. Copia las variables `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` desde **Project Settings > API** a tu `.env.local`.
 
 ### Tablas principales
 
 - `tbl_users` — Perfiles de usuario
 - `tbl_predictions` — Pronósticos con `competition_id` para filtrado por grupo
-- `tbl_groups` — Grupos con código de invitación y competición asociada
+- `tbl_groups` — Grupos con código de invitación, competición asociada y contraseña opcional
 - `tbl_group_members` — Relación usuario-grupo con rol (admin/member)
+- `tbl_group_join_requests` — Solicitudes pendientes de unión con estado (pending/approved/rejected)
 
 ### Funciones RPC
 

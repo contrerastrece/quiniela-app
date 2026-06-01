@@ -1,6 +1,5 @@
 import getUserSession from "@/lib/getUserSession";
 import createSupabaseServerClient from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import InviteClient from "./InviteClient";
 
 export default async function InvitePage({
@@ -16,7 +15,7 @@ export default async function InvitePage({
 
   const { data: group } = await supabase
     .from("tbl_groups")
-    .select("*")
+    .select("id, name, description, invite_code, competition_id, competition_name, password")
     .eq("invite_code", params.code.toUpperCase())
     .single();
 
@@ -36,7 +35,6 @@ export default async function InvitePage({
     .eq("group_id", group.id);
 
   let alreadyMember = false;
-  let pendingRequest = false;
   if (user) {
     const { data: membership } = await supabase
       .from("tbl_group_members")
@@ -45,25 +43,17 @@ export default async function InvitePage({
       .eq("user_id", user.id)
       .single();
     alreadyMember = !!membership;
-
-    if (!alreadyMember) {
-      const { data: req } = await supabase
-        .from("tbl_group_join_requests")
-        .select()
-        .eq("group_id", group.id)
-        .eq("user_id", user.id)
-        .eq("status", "pending")
-        .single();
-      pendingRequest = !!req;
-    }
   }
+
+  const hasPassword = !!group.password;
+  const { password: _, ...safeGroup } = group;
 
   return (
     <InviteClient
-      group={group}
+      group={safeGroup}
       memberCount={memberCount ?? 0}
       alreadyMember={alreadyMember}
-      pendingRequest={pendingRequest}
+      hasPassword={hasPassword}
       isAuthenticated={!!user}
     />
   );

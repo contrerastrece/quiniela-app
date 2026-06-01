@@ -7,9 +7,11 @@ import { HiOutlineUserGroup, HiOutlineArrowRightOnRectangle, HiOutlineTrash } fr
 export default function GroupCard({
   group,
   isAdmin,
+  pendingCount = 0,
 }: {
   group: { id: string; name: string; description: string | null; invite_code: string; competition_id: number | null; competition_name: string | null };
   isAdmin: boolean;
+  pendingCount?: number;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -60,9 +62,16 @@ export default function GroupCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <h2 className="font-semibold text-white truncate">{group.name}</h2>
-            <span className="text-[10px] text-slate-500 font-mono bg-slate-700 px-1.5 py-0.5 rounded shrink-0 mt-0.5">
-              {group.invite_code}
-            </span>
+            <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
+              {isAdmin && pendingCount > 0 && (
+                <span className="text-[10px] text-yellow-400 bg-yellow-400/10 px-1.5 py-0.5 rounded-full font-medium">
+                  {pendingCount} solicitud{pendingCount !== 1 ? "es" : ""}
+                </span>
+              )}
+              <span className="text-[10px] text-slate-500 font-mono bg-slate-700 px-1.5 py-0.5 rounded">
+                {group.invite_code}
+              </span>
+            </div>
           </div>
           {group.description && (
             <p className="text-xs text-slate-500 mt-0.5 truncate">{group.description}</p>

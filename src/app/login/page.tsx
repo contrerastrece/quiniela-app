@@ -1,18 +1,10 @@
 import { titleFont } from "@/config/fonts";
 import { LoginForm } from "./ui/LoginForm";
-import dynamic from "next/dynamic";
-
-const TeamLottie = dynamic(() => import("@/components/league/TeamLottie"), { ssr: false });
 
 export default function LoginPage() {
   return (
-    <div className="flex flex-col md:flex-row min-h-screen items-center justify-center gap-8 md:gap-16 px-4 py-8">
-      {/* Left: Illustration */}
-      <div className="w-full max-w-sm md:max-w-md">
-        <TeamLottie />
-      </div>
-
-      {/* Right: Login card */}
+    <div className="flex min-h-screen items-center justify-center px-4 py-8">
+      {/* Login card */}
       <div className="w-full max-w-sm">
         <div className="bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 shadow-xl">
           <div className="text-center mb-6">

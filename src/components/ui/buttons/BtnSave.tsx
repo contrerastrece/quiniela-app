@@ -28,6 +28,8 @@ export const BtnSave = ({
     score_home: homeScore,
     score_visit: awayScore,
     id_match: id.toString(),
+    competition_id: data.competition.id,
+    competition_name: data.competition.name,
   };
 
   const queryClient = useQueryClient();

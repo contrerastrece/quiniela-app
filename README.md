@@ -1,34 +1,42 @@
-# ⚽ Quiniela-Contra
+# Quiniela-Contra
 
-Aplicación de predicciones deportivas (quiniela) donde los usuarios compiten pronosticando resultados de partidos de fútbol de las principales ligas europeas.
+Aplicación de predicciones deportivas donde los usuarios compiten en **grupos** pronosticando resultados de fútbol de las principales ligas europeas.
 
-## 🚀 Stack
+## Stack
 
-- **Framework:** Next.js 14 (App Router)
-- **Autenticación:** Supabase Auth (Google OAuth)
-- **Base de datos:** Supabase PostgreSQL (RLS habilitado)
-- **Estado global:** Zustand
-- **Server state:** TanStack React Query
-- **Estilos:** Tailwind CSS
-- **Alertas:** SweetAlert2
-- **API externa:** [football-data.org](https://www.football-data.org/)
+- **Framework:** Next.js 14 (App Router), TypeScript
+- **Auth + DB:** Supabase (Google OAuth, PostgreSQL con RLS)
+- **Datos:** [football-data.org](https://www.football-data.org/)
+- **Estado:** TanStack React Query (servidor) + Zustand (predicciones)
+- **CSS:** Tailwind CSS
+- **Deploy:** Vercel
 
-## ✨ Funcionalidades
+## Cómo funciona
 
-- **Login con Google** — Autenticación mediante Supabase + OAuth de Google.
-- **Ligas disponibles** — Liga MX, Premier League, La Liga, Bundesliga, Serie A, Ligue 1.
-- **Predicciones por fecha** — Selecciona el marcador de cada partido y guarda tus picks.
-- **Mis Picks** — Revisa las predicciones que ya guardaste para cada jornada.
-- **Sistema de puntuación:**
-  - 1 pt por acertar resultado final (local gana, visitante gana o empate)
-  - 1 pt por acertar goles del equipo local
-  - 1 pt por acertar goles del equipo visitante
-  - 1 pt extra por resultado exacto
-  - -1 pt por no acertar nada
-- **Ranking** — Tabla de posiciones con los puntajes de todos los participantes.
-- **Perfil** — Información del usuario y cierre de sesión.
+1. **Crea o únete a un grupo** — Cada grupo tiene un código de invitación único.
+2. **Pronostica** — Ingresa el marcador de cada partido dentro de tu grupo.
+3. **Compite** — Gana puntos y sube en el ranking del grupo.
 
-## 🛠️ Empezar
+### Puntuación por partido
+
+| Acierto | Puntos |
+|---|---|
+| Resultado final (L/V/E) | +1 |
+| Goles del equipo local | +1 |
+| Goles del equipo visitante | +1 |
+| Bonus por resultado exacto | +1 extra |
+| No acertar nada | -1 |
+
+Máximo por partido: **4 puntos**.
+
+## Funcionalidades
+
+- **Grupos** — Crea grupos con una competición específica o abierta a todas. Invita con código o link.
+- **Predicciones** — Selecciona el marcador de cada partido desde el workspace del grupo.
+- **Ranking por grupo** — Cada grupo tiene su propio ranking independiente.
+- **Perfil** — Información del usuario y lista de grupos a los que pertenece.
+
+## Empezar
 
 ```bash
 git clone <repo-url>
@@ -38,61 +46,49 @@ npm install
 
 ### Variables de entorno
 
-Copia `.env.template` a `.env.local` y completa los valores:
+Copia `.env.template` a `.env.local` y completa:
 
 | Variable | Descripción |
 |---|---|
 | `API_TOKEN` | Token de football-data.org |
-| `NEXT_PUBLIC_API_URL` | URL base de la app (http://localhost:3000 en dev) |
+| `NEXT_PUBLIC_API_URL` | URL base (http://localhost:3000 en dev) |
 | `NEXT_PUBLIC_SUPABASE_URL` | URL de tu proyecto Supabase |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key de Supabase |
 
 ```bash
-npm run dev
+npm run dev      # Desarrollo
+npm run build    # Producción
+npm run lint     # ESLint
 ```
 
-## 🗄️ Base de datos
+## Base de datos
 
-Ejecuta `supabase_migration.sql` en el SQL Editor de Supabase para crear las tablas y funciones necesarias:
+Ejecuta los archivos SQL en orden en el SQL Editor de Supabase:
 
-- `tbl_users`, `tbl_matches`, `tbl_predictions`, `tbl_quiniela`, `tbl_rank`, `tbl_results`
-- Función `insert_user()` (trigger al registrarse)
-- Función `calculate_points_and_update_status()` (trigger al finalizar un partido)
-- RPC `get_user_points()` para el ranking
+1. `supabase_migration.sql` — Tablas y funciones base
+2. `supabase_migration_v2.sql` — Grupos, miembros, ranking por grupo
 
-## 🔐 Google OAuth (Supabase Auth)
+### Tablas principales
 
-La autenticación usa Supabase Auth con Google como proveedor OAuth.
+- `tbl_users` — Perfiles de usuario
+- `tbl_predictions` — Pronósticos con `competition_id` para filtrado por grupo
+- `tbl_groups` — Grupos con código de invitación y competición asociada
+- `tbl_group_members` — Relación usuario-grupo con rol (admin/member)
 
-### Configuración en Supabase
+### Funciones RPC
 
-1. Ve a **Authentication > Providers** y habilita Google.
-2. Copia los valores de **Client ID** y **Client Secret** desde Google Cloud Console (ver abajo).
-3. En **Authentication > Settings**:
-   - **Site URL**: `https://tudominio.com` (la URL donde esté desplegada la app)
-   - **Additional Redirect URLs**: `https://tudominio.com/auth/callback`
+- `get_user_points()` — Ranking global
+- `get_group_rankings(group_id)` — Ranking por grupo (filtrado por fecha de ingreso y competición)
 
-### Configuración en Google Cloud Console
+## Google OAuth (Supabase Auth)
 
-1. Crea un proyecto o ve a [Google Cloud Console > APIs & Services > Credentials](https://console.cloud.google.com/apis/credentials).
-2. Crea una credencial **OAuth 2.0 Client ID** (tipo Aplicación web).
-3. En **Authorized redirect URIs** agrega:
+1. En Supabase: **Authentication > Providers** → habilita Google.
+2. En Google Cloud Console: crea un **OAuth 2.0 Client ID** con redirect URI:
    ```
    https://<PROJECT_REF>.supabase.co/auth/v1/callback
    ```
-   El `<PROJECT_REF>` es el subdominio de tu proyecto Supabase (ej: `cjmgzdzxstgafesrrxln`).
-4. Copia el Client ID y Client Secret a Supabase Auth.
+3. Copia Client ID y Client Secret a Supabase Auth.
 
-### Flujo de autenticación
+## Despliegue
 
-```
-Usuario → LoginForm (signInWithOAuth)
-       → Google (autenticación)
-       → Supabase callback (/auth/v1/callback)
-       → Tu app (/auth/callback → intercambia code por session)
-       → Redirige a /competitions
-```
-
-## ☁️ Despliegue
-
-La app está lista para desplegarse en Vercel. Asegúrate de configurar las mismas variables de entorno en Vercel.
+Listo para Vercel. Configura las mismas variables de entorno en el dashboard de Vercel.

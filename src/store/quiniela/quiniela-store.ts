@@ -15,6 +15,8 @@ interface QuinielaItem {
   status_match?: string | null;
   result_visit?: number | null;
   result_home?: number | null;
+  competition_id?: number | null;
+  competition_name?: string | null;
 }
 
 interface State {

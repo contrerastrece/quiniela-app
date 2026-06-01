@@ -193,3 +193,28 @@ export interface ResultSet {
   last: Date;
   played: number;
 }
+
+export interface Group {
+  id: string;
+  name: string;
+  description: string | null;
+  created_by: string;
+  invite_code: string;
+  competition_id: number | null;
+  competition_name: string | null;
+  created_at: string;
+}
+
+export interface GroupMember {
+  group_id: string;
+  user_id: string;
+  role: "admin" | "member";
+  joined_at: string;
+}
+
+export interface GroupRanking {
+  id_user: string;
+  name: string;
+  url_image: string;
+  total_points: number;
+}

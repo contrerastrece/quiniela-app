@@ -20,7 +20,7 @@ export const useUserStore = create<UserState>((set) => ({
   getUsers: async () => {
     try {
       const { data: users, error } = await supabase.rpc("get_user_points");
-      return users;
+      return users as unknown as any[];
     } catch (error) {
       console.log(error!);
       return null;

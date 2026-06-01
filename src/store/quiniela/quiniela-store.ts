@@ -45,7 +45,7 @@ export const useQuinielaStore = create<State>((set) => ({
         .select()
         .eq("id_user", user.id)
         .order("created_at", { ascending: false });
-      set({ data: quiniela ?? [] });
+      set({ data: (quiniela as unknown as QuinielaItem[]) ?? [] });
       return quiniela;
     } catch (error) {
       console.log(error!);
